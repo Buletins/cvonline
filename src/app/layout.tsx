@@ -5,6 +5,7 @@ import { GeistSans } from "geist/font/sans";
 import { TRPCReactProvider } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import ResumonBadge from "./_components/resumon-badge";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: "Create T3 App",
@@ -19,15 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body
-        className={cn(
-          "flex min-h-svh flex-col bg-[rgb(20,20,20)]",
-          GeistSans.className,
-        )}
-      >
+      <body className={cn("flex min-h-svh flex-col", GeistSans.className)}>
         <TRPCReactProvider>
           <div className="">{children}</div>
           <ResumonBadge />
+          <Toaster />
         </TRPCReactProvider>
       </body>
     </html>
