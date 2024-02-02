@@ -6,8 +6,8 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-export const experienceRouter = createTRPCRouter({
-  create: publicProcedure
+export const contactRouter = createTRPCRouter({
+  create: protectedProcedure
     .input(
       z.object({
         contactType: z.string().max(50),
@@ -20,6 +20,11 @@ export const experienceRouter = createTRPCRouter({
 
       return ctx.db.contacts.create({
         data: {
+          user: {
+            connect: {
+              id: ctx.session.user.id,
+            },
+          },
           ...input,
         },
       });
@@ -36,10 +41,27 @@ export const experienceRouter = createTRPCRouter({
       // simulate a slow db call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      return ctx.db.experience.delete({
+      return ctx.db.contacts.delete({
         where: {
           userId: input.userId,
           id: input.id,
+        },
+      });
+    }),
+
+  get: publicProcedure
+    .input(
+      z.object({
+        userId: z.string().min(1),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.contacts.findMany({
+        where: {
+          userId: input.userId,
+        },
+        orderBy: {
+          createdAt: "desc",
         },
       });
     }),

@@ -61,7 +61,7 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
                 <ContactForm user={user} session={session} />
               )}
             </div>
-            <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4">
+            <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-lg">
               <Button size="sm" className="ml-auto">
                 Done
               </Button>
