@@ -28,10 +28,13 @@ export default async function ProfilePage({
             </p>
           </ItemBlock>
           <ItemBlock title="Contact">
-            <ContactItem label="E-mail" href="buletin.sehu@hotmail.com" />
-            <ContactItem label="Phone" href="+32 483 42 28 10" />
-            <ContactItem label="Twitter" href="@buletin.sehu" />
-            <ContactItem label="LinkedIn" href="@buletins" />
+            {user.contacts.map((item, index) => (
+              <ContactItem
+                key={index}
+                label={item.contactType}
+                href={item.contactValue}
+              />
+            ))}
           </ItemBlock>
           {/* <ExperienceBlock data={user.experiences} /> */}
           {/* <ItemBlock title="Education">
