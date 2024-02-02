@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import GeneralForm from "@/components/forms/general-form";
 import { User } from "@prisma/client";
+import ContactForm from "@/components/forms/contact-form";
 
 interface EditProfileBtnProps {
   user: User;
@@ -17,6 +18,12 @@ interface EditProfileBtnProps {
 
 export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
   const [activeTab, setActiveTab] = useState<string>("General");
+
+  const links = [
+    { label: "General" },
+    { label: "Projects" },
+    { label: "Contact" },
+  ];
 
   return (
     <Dialog>
@@ -31,39 +38,27 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
           <div className="w-60 border-r py-8">
             <div className="px-6 text-lg">Profile</div>
             <div className="flex flex-col py-3">
-              <button
-                onClick={() => setActiveTab("General")}
-                className={cn(
-                  "w-full px-6 py-1.5 text-left text-sm text-muted-foreground",
-                  activeTab === "General" && "bg-[#333] text-primary",
-                )}
-              >
-                General
-              </button>
-              <button
-                onClick={() => setActiveTab("Projects")}
-                className={cn(
-                  "w-full px-6 py-1.5 text-left text-sm text-muted-foreground",
-                  activeTab === "Projects" && "bg-[#333] text-primary",
-                )}
-              >
-                Projects
-              </button>
-              <button
-                onClick={() => setActiveTab("SideProjects")}
-                className={cn(
-                  "w-full px-6 py-1.5 text-left text-sm text-muted-foreground",
-                  activeTab === "SideProjects" && "bg-[#333] text-primary",
-                )}
-              >
-                Side Projects
-              </button>
+              {links.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveTab(item.label)}
+                  className={cn(
+                    "w-full px-6 py-1.5 text-left text-sm text-muted-foreground",
+                    activeTab === item.label && "bg-[#333] text-primary",
+                  )}
+                >
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
           <div className="relative flex-grow">
             <div className="h-full px-6 py-8">
               {activeTab === "General" && (
                 <GeneralForm user={user} session={session} />
+              )}
+              {activeTab === "Contact" && (
+                <ContactForm user={user} session={session} />
               )}
             </div>
             <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4">

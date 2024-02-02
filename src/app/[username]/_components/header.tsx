@@ -1,6 +1,5 @@
 "use client";
 
-import { z } from "zod";
 import EmojiPicker from "emoji-picker-react";
 import {
   CameraIcon,
@@ -9,8 +8,6 @@ import {
   MoreHorizontalIcon,
   SmilePlusIcon,
 } from "lucide-react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import { useState } from "react";
 
@@ -24,9 +21,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { toast } from "sonner";
-import { api } from "@/trpc/react";
-import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { Session } from "next-auth";
 import SignOut from "@/app/_components/sign-out";
@@ -36,15 +30,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-const formSchema = z.object({
-  name: z.string().min(2).max(50),
-  title: z.string().min(2).max(50),
-  location: z.string().min(2).max(50),
-  email: z.string().min(2).max(50),
-  website: z.string().min(2).max(50),
-  description: z.string().min(2).max(500),
-});
 
 interface HeaderProps {
   user: Pick<
@@ -62,40 +47,10 @@ interface HeaderProps {
 }
 
 export default function Header({ user, session }: HeaderProps) {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [emojiOpen, setEmojiOpen] = useState<boolean>(false);
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
 
   const { id, email, profileImage, location, name, title, website } = user;
-  const router = useRouter();
-
-  const updateUser = api.user.update.useMutation({
-    onSuccess: (data) => {
-      toast.success("Changes have been saved.");
-      router.refresh();
-    },
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: user?.name ?? "",
-      title: user?.title ?? "",
-      location: user?.location ?? "",
-      email: user?.email ?? "",
-      website: user?.website ?? "",
-      description: user?.description ?? "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    updateUser.mutate({
-      id,
-      ...values,
-    });
-  }
-
-  const { isSubmitting } = form.formState;
 
   return (
     <header className="relative flex  w-full items-end">
