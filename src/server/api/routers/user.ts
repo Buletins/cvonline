@@ -21,11 +21,11 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  getById: publicProcedure
-    .input(z.object({ id: z.string().min(1) }))
+  getByUsernam: publicProcedure
+    .input(z.object({ username: z.string().min(1) }))
     .query(({ ctx, input }) => {
       return ctx.db.user.findFirst({
-        where: { id: input.id },
+        where: { username: input.username },
         include: {
           experiences: {
             orderBy:{
@@ -40,6 +40,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(2).max(50).optional(),
+        username: z.string().min(2).max(50).optional(),
         name: z.string().min(2).max(50),
         title: z.string().min(2).max(50),
         location: z.string().min(2).max(50),
