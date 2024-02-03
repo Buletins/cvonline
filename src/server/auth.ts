@@ -7,6 +7,7 @@ import {
 import DiscordProvider from "next-auth/providers/discord";
 import GoogleProvider from "next-auth/providers/google";
 
+import { nanoid } from "@/lib/utils";
 import { env } from "@/env";
 import { db } from "@/server/db";
 
@@ -20,15 +21,17 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      username: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    // ...other properties
+    // role: UserRole;
+    username: string;
+  }
 }
 
 /**
@@ -43,10 +46,15 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
+        username: user.username,
       },
     }),
   },
-  adapter: PrismaAdapter(db),
+  adapter: {
+    ...PrismaAdapter(db),
+    createUser: (data) =>
+      db.user.create({ data: { ...data, username: nanoid() } }),
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,

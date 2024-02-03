@@ -22,8 +22,15 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { api } from "@/trpc/react";
 import { Session } from "next-auth";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   contactType: z.string().min(2).max(50),
@@ -102,13 +109,19 @@ export default function ContactForm({ user, session }: ContactFormProps) {
                     <FormLabel className="text-xs text-muted-foreground">
                       Type
                     </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Front-End Developer"
-                        className="bg-accent focus-visible:ring-0"
-                      />
-                    </FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a verified email to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="linkedin">LinkedIn</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

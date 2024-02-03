@@ -16,7 +16,7 @@ export default async function ProfilePage({
 
   const user = await api.user.getByUsernam.query({ username: params.username });
 
-  if (!user) return "use not found";
+  if (!user ?? !user?.email) return "use not found";
   return (
     <>
       <div className="flex flex-col gap-8 py-20">
@@ -28,6 +28,7 @@ export default async function ProfilePage({
             </p>
           </ItemBlock>
           <ItemBlock title="Contact">
+            <ContactItem label="Email" href={user.email} />
             {user.contacts.map((item, index) => (
               <ContactItem
                 key={index}

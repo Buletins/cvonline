@@ -21,7 +21,7 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  getByUsernam: publicProcedure
+  getByUsernam: protectedProcedure
     .input(z.object({ username: z.string().min(1) }))
     .query(({ ctx, input }) => {
       return ctx.db.user.findFirst({
@@ -42,7 +42,7 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  update: publicProcedure
+  update: protectedProcedure
     .input(
       z.object({
         id: z.string().min(2).max(50).optional(),
@@ -69,7 +69,32 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
+  changeUsername: protectedProcedure
+    .input(
+      z.object({
+        username: z.string().min(2).max(50).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const existingUser = await ctx.db.user.findUnique({
+        where: {
+          username: input.username,
+        },
+      });
+
+      if (existingUser) {
+        throw new Error(
+          "Username already exists. Please choose a different username.",
+        );
+      }
+
+      return ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          username: input.username,
+        },
+      });
+    }),
 });
