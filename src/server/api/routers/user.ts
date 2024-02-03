@@ -25,12 +25,17 @@ export const userRouter = createTRPCRouter({
     .input(z.object({ username: z.string().min(1) }))
     .query(({ ctx, input }) => {
       return ctx.db.user.findFirst({
-        where: { username: input.username },
+        where: {
+          username: {
+            equals: input.username,
+            mode: "insensitive",
+          },
+        },
         include: {
           experiences: {
-            orderBy:{
-              createdAt: "desc"
-            }
+            orderBy: {
+              createdAt: "desc",
+            },
           },
           contacts: true,
         },

@@ -5,8 +5,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { useState } from "react";
-
 import type { User } from "@prisma/client";
 
 import {
@@ -61,7 +59,7 @@ export default function GeneralForm({ user, session }: GeneralFormProps) {
   const updateUser = api.user.update.useMutation({
     onSuccess: (data) => {
       toast.success("Changes have been saved.");
-      router.refresh();
+      router.push(`${data.username?.toLocaleLowerCase()}`);
     },
   });
 

@@ -35,7 +35,7 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
       </DialogTrigger>
       <DialogContent className="min-h-[760px] w-full max-w-3xl bg-background/50 p-0 backdrop-blur-lg">
         <div className="flex w-full">
-          <div className="w-60 border-r py-8">
+          <div className="w-60 border-r py-6">
             <div className="px-6 text-lg">Profile</div>
             <div className="flex flex-col py-3">
               {links.map((item, index) => (
