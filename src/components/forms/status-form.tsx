@@ -19,18 +19,23 @@ import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
+import { Dispatch, SetStateAction } from "react";
 
 const formSchema = z.object({
   status: z.string().min(2).max(200),
 });
 
-export default function StatusForm() {
+interface StatusFormProps {
+  setIsStatusOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
   const router = useRouter();
 
   const addStatus = api.status.create.useMutation({
     onSuccess: (data) => {
       toast.success("Username changed");
-      router.refresh();
+      setIsStatusOpen(false);
     },
     onError: (data) => {
       toast.error("Username allready exists");
@@ -79,7 +84,12 @@ export default function StatusForm() {
           />
         </div>
         <div className="flex items-end gap-2">
-          <Button type="button" size="sm" variant="link">
+          <Button
+            onClick={() => setIsStatusOpen(false)}
+            type="button"
+            size="sm"
+            variant="link"
+          >
             Cancel
           </Button>
           <Button type="submit" size="sm" variant="outline">

@@ -18,7 +18,7 @@ export const contactRouter = createTRPCRouter({
       // simulate a slow db call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      return ctx.db.contacts.create({
+      return ctx.db.contact.create({
         data: {
           user: {
             connect: {
@@ -41,7 +41,7 @@ export const contactRouter = createTRPCRouter({
       // simulate a slow db call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      return ctx.db.contacts.delete({
+      return ctx.db.contact.delete({
         where: {
           userId: input.userId,
           id: input.id,
@@ -56,7 +56,7 @@ export const contactRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.contacts.findMany({
+      return ctx.db.contact.findMany({
         where: {
           userId: input.userId,
         },

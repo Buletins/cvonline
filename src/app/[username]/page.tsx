@@ -29,6 +29,11 @@ export default async function ProfilePage({
               {user.description}
             </p>
           </ItemBlock>
+          <ItemBlock title="Experiences">
+            {user.experiences.map((item, index) => (
+              <div className="">{item.title}</div>
+            ))}
+          </ItemBlock>
           <ItemBlock title="Contact">
             <ContactItem label="Email" href={user.email} />
             {user.contacts.map((item, index) => (
@@ -39,51 +44,6 @@ export default async function ProfilePage({
               />
             ))}
           </ItemBlock>
-          {/* <ExperienceBlock data={user.experiences} /> */}
-          {/* <ItemBlock title="Education">
-          <ItemDetail
-          sub="Master in UX Design"
-          title="UniversAmsterdam"
-          timeline="2014-2016"
-          description="ies with a master thesis about human computer interaction in AI."
-          />
-          <ItemDetail
-          sub="Master in UX Design"
-          title="Unences, Amsterdam"
-          timeline="2014-2016"
-            description="Specializing in UX and UI Design and closing the studies with a master thesis about human computer interaction in AI."
-            />
-            <ItemDetail
-            sub="Master in UX Design"
-            title="University Applied Sciences, Amsterdam"
-            timeline="2014-2016"
-            description="Specializing in UX and UI Design and closing the studies with a master thesis about human computer interaction in AI."
-            />
-            <ItemDetail
-            sub="Master in UX Design"
-            title="University Applied Sciences, Amsterdam"
-            timeline="2014-2016"
-            description="Specializing in UX and UI Design and closing the studies with a master thesis about human computer interaction in AI."
-            />
-            <ItemDetail
-            sub="Master in UX Design"
-            title="University Applied Sciences, Amsterdam"
-            timeline="2014-2016"
-            description="Specializing in UX and UI Design and closing the studies with a master thesis about human computer interaction in AI."
-            />
-            <ItemDetail
-            sub="Master in UX Design"
-            title="University Applied Sciences, Amsterdam"
-            timeline="2014-2016"
-            description="Specializing in UX and UI Design and closing the studies with a master thesis about human computer interaction in AI."
-            />
-            </ItemBlock>
-            <ItemBlock title="Contact">
-            <ContactItem label="E-mail" href="buletin.sehu@hotmail.com" />
-            <ContactItem label="Phone" href="+32 483 42 28 10" />
-            <ContactItem label="Twitter" href="@buletin.sehu" />
-            <ContactItem label="LinkedIn" href="@buletins" />
-          </ItemBlock> */}
         </main>
       </div>
       {session && <EditProfileBtn user={user} session={session} />}
