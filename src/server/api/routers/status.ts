@@ -15,14 +15,41 @@ export const statusRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.status.create({
-        data: {
+      const status = await ctx.db.status.findUnique({
+        where: {
           userId: ctx.session.user.id,
-          emoji: input.emoji,
-          title: input.title,
         },
       });
+
+      if (status) {
+        return ctx.db.status.update({
+          where: {
+            userId: ctx.session.user.id,
+          },
+          data: {
+            emoji: input.emoji,
+            title: input.title,
+            createdAt: new Date(),
+          },
+        });
+      } else {
+        return ctx.db.status.create({
+          data: {
+            emoji: input.emoji,
+            title: input.title,
+            userId: ctx.session.user.id,
+          },
+        });
+      }
     }),
+
+  delete: protectedProcedure.mutation(async ({ ctx }) => {
+    return ctx.db.status.delete({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+  }),
 
   get: publicProcedure
     .input(

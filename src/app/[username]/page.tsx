@@ -24,7 +24,8 @@ export default async function ProfilePage({
   return (
     <>
       <div className="flex flex-col gap-8 py-20">
-        {!user.isPusblished && <PublishBar />}
+        {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
+
         <Header user={user} session={session} />
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
           <ItemBlock title="About">

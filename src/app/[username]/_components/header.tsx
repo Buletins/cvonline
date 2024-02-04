@@ -6,6 +6,7 @@ import {
   ExternalLinkIcon,
   MoreHorizontalIcon,
   SmilePlusIcon,
+  XIcon,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -29,10 +30,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import StatusForm from "@/components/forms/status-form";
+import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 
 interface HeaderProps {
   user: User & {
-    status: Status[];
+    status: Status;
   };
   status: Status;
   session: Session | null;
@@ -40,8 +43,15 @@ interface HeaderProps {
 
 export default function Header({ user, session }: HeaderProps) {
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const { status, location, name, title } = user;
+
+  const deleteStatus = api.status.delete.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   return (
     <header className="relative flex  w-full items-end">
@@ -81,7 +91,7 @@ export default function Header({ user, session }: HeaderProps) {
                       className="flex items-center justify-center rounded-full bg-black px-1.5 py-1"
                     >
                       {status ? (
-                        <div className="text-xs">{status[0]?.emoji}</div>
+                        <div className="text-xs">{status.emoji}</div>
                       ) : (
                         <SmilePlusIcon className="h-3 w-3 text-muted-foreground" />
                       )}
@@ -126,17 +136,24 @@ export default function Header({ user, session }: HeaderProps) {
         {isStatusOpen ? (
           <StatusForm setIsStatusOpen={setIsStatusOpen} />
         ) : status ? (
-          status.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col gap-2 rounded-lg bg-accent p-3"
-            >
-              <p className="text-sm tracking-tight">{item.title}</p>
-              <div className="text-xs tracking-tight text-muted-foreground">
-                {item.createdAt.toDateString()}
+          <div className="group relative flex flex-col gap-2 rounded-lg bg-accent p-3">
+            {session?.user.id === user.id && (
+              <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100">
+                <Button
+                  onClick={() => deleteStatus.mutate()}
+                  size="sm"
+                  variant="outline"
+                  className="px-1"
+                >
+                  <XIcon className="h-3 w-3" />
+                </Button>
               </div>
+            )}
+            <p className="text-sm tracking-tight">{status.title}</p>
+            <div className="text-xs tracking-tight text-muted-foreground">
+              {status.createdAt.toLocaleTimeString()}
             </div>
-          ))
+          </div>
         ) : null}
       </div>
     </header>

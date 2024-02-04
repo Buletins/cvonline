@@ -76,7 +76,8 @@ model User {
     educations       Education[]
     educationActive  Boolean      @default(false)
     contacts         Contact[]
-    status           Status[]
+
+    status Status?
 }
 
 model VerificationToken {
@@ -146,8 +147,8 @@ model Status {
     title String
     emoji String?
 
-    user   User?   @relation(fields: [userId], references: [id])
-    userId String?
+    user   User   @relation(fields: [userId], references: [id])
+    userId String @unique
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
