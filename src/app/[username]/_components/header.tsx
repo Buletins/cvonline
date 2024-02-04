@@ -135,7 +135,7 @@ export default function Header({ user, session }: HeaderProps) {
         {isStatusOpen ? (
           <StatusForm />
         ) : status ? (
-          <div className="flex flex-col items-start gap-2 rounded-lg bg-accent p-3">
+          <div className="flex flex-col gap-2 rounded-lg bg-accent p-3">
             <p className="text-sm tracking-tight">{status.status}</p>
             <div className="text-xs tracking-tight text-muted-foreground">
               {status.createdAt.toDateString()}
