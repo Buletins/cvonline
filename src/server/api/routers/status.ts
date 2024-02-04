@@ -10,14 +10,16 @@ export const statusRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
-        status: z.string().max(50),
+        emoji: z.string().max(50),
+        title: z.string().max(200),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.status.create({
         data: {
           userId: ctx.session.user.id,
-          status: input.status,
+          emoji: input.emoji,
+          title: input.title,
         },
       });
     }),

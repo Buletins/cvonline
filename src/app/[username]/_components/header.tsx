@@ -1,6 +1,5 @@
 "use client";
 
-import EmojiPicker from "emoji-picker-react";
 import {
   CameraIcon,
   CopyIcon,
@@ -11,7 +10,7 @@ import {
 
 import { useState } from "react";
 
-import type { User } from "@prisma/client";
+import type { Status, User } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -21,7 +20,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { Textarea } from "@/components/ui/textarea";
 import { Session } from "next-auth";
 import SignOut from "@/app/_components/sign-out";
 import {
@@ -32,31 +30,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import StatusForm from "@/components/forms/status-form";
 import { api } from "@/trpc/react";
+import clsx from "clsx";
 
 interface HeaderProps {
-  user: Pick<
-    User,
-    | "id"
-    | "name"
-    | "title"
-    | "location"
-    | "email"
-    | "website"
-    | "profileImage"
-    | "description"
-  >;
+  user: User & {
+    status: Status[];
+  };
+  status: Status;
   session: Session | null;
 }
 
 export default function Header({ user, session }: HeaderProps) {
-  const [emojiOpen, setEmojiOpen] = useState<boolean>(false);
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
 
-  const { id, email, profileImage, location, name, title, website } = user;
-
-  const { data: status } = api.status.get.useQuery({
-    userId: id,
-  });
+  const { status, location, name, title } = user;
 
   return (
     <header className="relative flex  w-full items-end">
@@ -95,7 +82,11 @@ export default function Header({ user, session }: HeaderProps) {
                       onClick={() => setIsStatusOpen(!isStatusOpen)}
                       className="flex items-center justify-center rounded-full bg-black px-1.5 py-1"
                     >
-                      <SmilePlusIcon className="h-3 w-3 text-muted-foreground" />
+                      {status ? (
+                        <div className="text-xs">{status[0]?.emoji}</div>
+                      ) : (
+                        <SmilePlusIcon className="h-3 w-3 text-muted-foreground" />
+                      )}
                     </button>
                   </div>
                 </TooltipTrigger>
@@ -135,12 +126,17 @@ export default function Header({ user, session }: HeaderProps) {
         {isStatusOpen ? (
           <StatusForm setIsStatusOpen={setIsStatusOpen} />
         ) : status ? (
-          <div className="flex flex-col gap-2 rounded-lg bg-accent p-3">
-            <p className="text-sm tracking-tight">{status.status}</p>
-            <div className="text-xs tracking-tight text-muted-foreground">
-              {status.createdAt.toDateString()}
+          status.map((item) => (
+            <div
+              key={item.id}
+              className="flex flex-col gap-2 rounded-lg bg-accent p-3"
+            >
+              <p className="text-sm tracking-tight">{item.title}</p>
+              <div className="text-xs tracking-tight text-muted-foreground">
+                {item.createdAt.toDateString()}
+              </div>
             </div>
-          </div>
+          ))
         ) : null}
       </div>
     </header>

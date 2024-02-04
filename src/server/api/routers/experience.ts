@@ -7,21 +7,18 @@ import {
 } from "@/server/api/trpc";
 
 export const experienceRouter = createTRPCRouter({
-  create: publicProcedure
+  create: protectedProcedure
     .input(
       z.object({
         title: z.string().min(2).max(48),
         location: z.string().min(2).max(48),
         company: z.string().min(2).max(48),
-        description: z.string().min(2).max(48),
+        description: z.string().min(2).max(200),
         fromYear: z.string().min(2).max(48),
         toYear: z.string().min(2).max(48),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       return ctx.db.experience.create({
         data: {
           userId: ctx.session?.user.id,
@@ -35,6 +32,22 @@ export const experienceRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.experience.findMany({
         where: { id: ctx.session.user.id },
+      });
+    }),
+
+  delete: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string().min(1),
+        id: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.experience.delete({
+        where: {
+          userId: input.userId,
+          id: input.id,
+        },
       });
     }),
 });

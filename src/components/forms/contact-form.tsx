@@ -42,13 +42,11 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ user }: ContactFormProps) {
-  const [isAdding, setIsAdding] = useState<boolean>(false);
   const router = useRouter();
 
   const addContact = api.contact.create.useMutation({
     onSuccess: (data) => {
       toast.success("Contact added.");
-      setIsAdding(false);
       router.refresh();
     },
   });
@@ -61,10 +59,6 @@ export default function ContactForm({ user }: ContactFormProps) {
     onSettled: (data) => {
       router.refresh();
     },
-  });
-
-  const { data: contactItems } = api.contact.get.useQuery({
-    userId: user.id,
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -81,118 +75,61 @@ export default function ContactForm({ user }: ContactFormProps) {
     });
   }
   return (
-    <div className="flex h-full flex-col gap-8">
-      <div className="flex items-center justify-between border-b pb-4">
-        <div className="">Contact</div>
-        <Button
-          onClick={() => setIsAdding(!isAdding)}
-          size="sm"
-          variant="secondary"
-        >
-          {isAdding ? "Canel" : "Add new"}
-        </Button>
-      </div>
-
-      {isAdding ? (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-2"
-          >
-            <div className="flex items-center gap-2">
-              <FormField
-                control={form.control}
-                name="contactType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs text-muted-foreground">
-                      Type
-                    </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="linkedin">LinkedIn</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="contactValue"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs text-muted-foreground">
-                      Value
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Front-End Developer"
-                        className="bg-accent focus-visible:ring-0"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Button type="submit" size="sm" className="ml-auto">
-              Done
-            </Button>
-          </form>
-        </Form>
-      ) : contactItems?.length ? (
-        contactItems?.map((item, index) => (
-          <div key={index} className="flex">
-            <div className="w-32 text-sm tracking-tight text-muted-foreground">
-              {item.contactType}
-            </div>
-            <div className="flex flex-col gap-2">
-              <a
-                href={item.contactValue}
-                target="_blank"
-                className="font-medium tracking-tight hover:underline"
-              >
-                {item.contactValue}
-              </a>
-              <div className="flex items-center gap-4">
-                <Button size="sm" variant="link" className="p-0">
-                  Edit
-                </Button>
-                <Button
-                  onClick={() =>
-                    deleteContact.mutate({
-                      id: item.id,
-                      userId: user.id,
-                    })
-                  }
-                  size="sm"
-                  variant="link"
-                  className="p-0 text-destructive"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-2"
+      >
+        <div className="flex items-center gap-2">
+          <FormField
+            control={form.control}
+            name="contactType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs text-muted-foreground">
+                  Type
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
                 >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </div>
-        ))
-      ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <img
-            src="https://read.cv/_next/image?url=%2Fassets%2Fcontact.png&w=256&q=75"
-            alt=""
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a verified email to display" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="linkedin">LinkedIn</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="contactValue"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs text-muted-foreground">
+                  Value
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Front-End Developer"
+                    className="bg-accent focus-visible:ring-0"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
-      )}
-    </div>
+        <Button type="submit" size="sm" className="ml-auto">
+          Done
+        </Button>
+      </form>
+    </Form>
   );
 }

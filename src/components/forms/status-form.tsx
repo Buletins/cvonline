@@ -5,7 +5,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import type { User } from "@prisma/client";
 
 import {
   Form,
@@ -20,9 +19,17 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { Dispatch, SetStateAction } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
-  status: z.string().min(2).max(200),
+  emoji: z.string().max(50),
+  title: z.string().max(200),
 });
 
 interface StatusFormProps {
@@ -36,6 +43,7 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
     onSuccess: (data) => {
       toast.success("Username changed");
       setIsStatusOpen(false);
+      router.refresh();
     },
     onError: (data) => {
       toast.error("Username allready exists");
@@ -45,7 +53,8 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      status: status ?? "",
+      emoji: "",
+      title: "",
     },
   });
 
@@ -61,14 +70,35 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
         className="flex flex-col items-end gap-2 rounded-lg bg-accent p-3"
       >
         <div className="flex w-full items-start gap-2">
-          <div className="flex">
-            <button className="">🔥</button>
-          </div>
           <FormField
             control={form.control}
-            name="status"
+            name="emoji"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-auto">
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="h-auto bg-accent p-0 focus:ring-0 focus-visible:ring-0">
+                      <SelectValue placeholder="🔥" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="w-16 min-w-0">
+                    <SelectItem value="😂">😂</SelectItem>
+                    <SelectItem value="❤️">❤️</SelectItem>
+                    <SelectItem value="👍">👍</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className="flex-grow">
                 <FormControl>
                   <div className="relative flex items-center gap-2">
                     <Textarea

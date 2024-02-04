@@ -5,6 +5,7 @@ import ContactItem from "./_components/contact-item";
 import Header from "./_components/header";
 import EditProfileBtn from "./_components/edit-profile-btn";
 import PublishBar from "./_components/publish-bar";
+import ExperienceItem from "./_components/experience-item";
 
 export default async function ProfilePage({
   params,
@@ -30,15 +31,15 @@ export default async function ProfilePage({
             </p>
           </ItemBlock>
           <ItemBlock title="Experiences">
-            {user.experiences.map((item, index) => (
-              <div className="">{item.title}</div>
+            {user.experiences.map((item) => (
+              <ExperienceItem key={item.id} data={item} />
             ))}
           </ItemBlock>
           <ItemBlock title="Contact">
             <ContactItem label="Email" href={user.email} />
-            {user.contacts.map((item, index) => (
+            {user.contacts.map((item) => (
               <ContactItem
-                key={index}
+                key={item.id}
                 label={item.contactType}
                 href={item.contactValue}
               />

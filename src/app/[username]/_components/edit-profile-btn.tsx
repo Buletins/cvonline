@@ -65,10 +65,9 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
                 <GeneralForm user={user} session={session} />
               )}
               {activeTab === "Experience" && (
-                <ExperienceTab data={user.experiences} />
+                <ExperienceTab id={session.user.id} data={user.experiences} />
               )}
               {activeTab === "Contact" && <ContactTab data={user.contacts} />}
-              {activeTab === "Contact1" && <ContactForm user={user} />}
             </div>
             <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-lg">
               <Button size="sm" className="ml-auto">

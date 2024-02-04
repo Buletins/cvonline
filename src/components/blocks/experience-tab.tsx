@@ -4,15 +4,16 @@ import WorkExperience from "./work-experience";
 import { Experience } from "@prisma/client";
 
 interface ExperienceTabProps {
+  id: string;
   data: Experience[];
 }
 
-export default function ExperienceTab({ data }: ExperienceTabProps) {
+export default function ExperienceTab({ id, data }: ExperienceTabProps) {
   return (
     <BlockWrapper
       title="Contact"
       adding={<ExperienceForm />}
-      listing={<WorkExperience data={data} />}
+      listing={<WorkExperience id={id} data={data} />}
     />
   );
 }

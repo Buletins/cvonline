@@ -1,8 +1,8 @@
 import BlockWrapper from "./block-wrapper";
-import ExperienceForm from "../forms/experience-form";
-import WorkExperience from "./work-experience";
+
 import { Contact } from "@prisma/client";
 import ContactBlock from "./contact-block";
+import ContactForm from "../forms/contact-form";
 
 interface ContactTabProps {
   data: Contact[];
@@ -12,7 +12,7 @@ export default function ContactTab({ data }: ContactTabProps) {
   return (
     <BlockWrapper
       title="Contact"
-      adding={<ExperienceForm />}
+      adding={<ContactForm />}
       listing={<ContactBlock data={data} />}
     />
   );
