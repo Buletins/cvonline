@@ -19,6 +19,8 @@ interface EditProfileBtnProps {
 export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
   const [activeTab, setActiveTab] = useState<string>("General");
 
+  if (session?.user.id != user.id) return null;
+
   const links = [
     { label: "General" },
     { label: "Projects" },
@@ -53,13 +55,11 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
             </div>
           </div>
           <div className="relative flex-grow">
-            <div className="h-full px-6 py-8">
+            <div className="h-full px-4 py-8">
               {activeTab === "General" && (
                 <GeneralForm user={user} session={session} />
               )}
-              {activeTab === "Contact" && (
-                <ContactForm user={user} session={session} />
-              )}
+              {activeTab === "Contact" && <ContactForm user={user} />}
             </div>
             <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-lg">
               <Button size="sm" className="ml-auto">

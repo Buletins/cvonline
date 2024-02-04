@@ -1,11 +1,10 @@
+import { api } from "@/trpc/server";
+import { getServerAuthSession } from "@/server/auth";
 import ItemBlock from "./_components/item-block";
-import ItemDetail from "./_components/item-detail";
 import ContactItem from "./_components/contact-item";
 import Header from "./_components/header";
-import { api } from "@/trpc/server";
-import ExperienceBlock from "./_components/experience-block";
-import { getServerAuthSession } from "@/server/auth";
 import EditProfileBtn from "./_components/edit-profile-btn";
+import PublishBar from "./_components/publish-bar";
 
 export default async function ProfilePage({
   params,
@@ -16,10 +15,13 @@ export default async function ProfilePage({
 
   const user = await api.user.getByUsernam.query({ username: params.username });
 
+  if (!session && !user?.isPusblished) return "This profile is not published";
+
   if (!user ?? !user?.email) return "use not found";
   return (
     <>
       <div className="flex flex-col gap-8 py-20">
+        {!user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
           <ItemBlock title="About">

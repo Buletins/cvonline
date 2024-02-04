@@ -39,10 +39,9 @@ const formSchema = z.object({
 
 interface ContactFormProps {
   user: Pick<User, "id">;
-  session: Session | null;
 }
 
-export default function ContactForm({ user, session }: ContactFormProps) {
+export default function ContactForm({ user }: ContactFormProps) {
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const router = useRouter();
 

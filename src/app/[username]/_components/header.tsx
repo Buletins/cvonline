@@ -30,6 +30,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import StatusForm from "@/components/forms/status-form";
+import { api } from "@/trpc/react";
 
 interface HeaderProps {
   user: Pick<
@@ -51,6 +53,10 @@ export default function Header({ user, session }: HeaderProps) {
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
 
   const { id, email, profileImage, location, name, title, website } = user;
+
+  const { data: status } = api.status.get.useQuery({
+    userId: id,
+  });
 
   return (
     <header className="relative flex  w-full items-end">
@@ -126,32 +132,16 @@ export default function Header({ user, session }: HeaderProps) {
             </div>
           </div>
         </div>
-        {isStatusOpen && (
-          <div className="flex flex-col items-end gap-2 rounded-lg bg-accent p-3">
-            <div className="flex w-full items-start gap-2">
-              <div className="flex">
-                <button className="">🔥</button>
-                <EmojiPicker open={emojiOpen} />
-              </div>
-              <Textarea
-                placeholder="I'm feeling..."
-                className="resize-none p-0 focus-visible:ring-0"
-              />
-            </div>
-            <div className="flex items-end gap-2">
-              <Button
-                onClick={() => setIsStatusOpen(false)}
-                size="sm"
-                variant="link"
-              >
-                Cancel
-              </Button>
-              <Button size="sm" variant="outline">
-                Set Status
-              </Button>
+        {isStatusOpen ? (
+          <StatusForm />
+        ) : status ? (
+          <div className="flex flex-col items-start gap-2 rounded-lg bg-accent p-3">
+            <p className="text-sm tracking-tight">{status.status}</p>
+            <div className="text-xs tracking-tight text-muted-foreground">
+              {status.createdAt.toDateString()}
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     </header>
   );

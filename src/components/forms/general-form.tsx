@@ -1,11 +1,11 @@
 "use client";
 
 import { z } from "zod";
-
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
 import type { User } from "@prisma/client";
+import { useForm } from "react-hook-form";
+import { Session } from "next-auth";
+import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   Form,
@@ -17,27 +17,18 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { api } from "@/trpc/react";
-import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
-import { Session } from "next-auth";
 import { Button } from "../ui/button";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import UsernameForm from "./username-form";
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
   name: z.string().min(2).max(48),
   title: z.string().min(2).max(50),
   location: z.string().min(2).max(50),
   email: z.string().min(2).max(50),
   website: z.string().min(2).max(50),
   description: z.string().min(2).max(500),
-});
-
-const usernameSchema = z.object({
-  username: z.string().min(2).max(50),
 });
 
 interface GeneralFormProps {
@@ -57,26 +48,8 @@ interface GeneralFormProps {
 }
 
 export default function GeneralForm({ user, session }: GeneralFormProps) {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const { id, username, email, profileImage, location, name, title, website } =
+  const { id, username, email, location, name, title, website, description } =
     user;
-
-  const changeUsername = api.user.changeUsername.useMutation({
-    onSuccess: (data) => {
-      toast.success("Username changed");
-      router.push(`${data.username?.toLocaleLowerCase()}`);
-      setIsLoading(false);
-    },
-    onError: (data) => {
-      toast.error("Username allready exists");
-      setIsLoading(false);
-    },
-    onMutate: () => {
-      setIsLoading(true);
-    },
-  });
 
   const updateUser = api.user.update.useMutation({
     onSuccess: (data) => {
@@ -84,23 +57,15 @@ export default function GeneralForm({ user, session }: GeneralFormProps) {
     },
   });
 
-  const usernameForm = useForm<z.infer<typeof usernameSchema>>({
-    resolver: zodResolver(usernameSchema),
-    defaultValues: {
-      username: user?.username ?? "",
-    },
-  });
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: user?.username ?? "",
-      name: user?.name ?? "",
-      title: user?.title ?? "",
-      location: user?.location ?? "",
-      email: user?.email ?? "",
-      website: user?.website ?? "",
-      description: user?.description ?? "",
+      name: name ?? "",
+      title: title ?? "",
+      location: location ?? "",
+      email: email ?? "",
+      website: website ?? "",
+      description: description ?? "",
     },
   });
 
@@ -111,45 +76,9 @@ export default function GeneralForm({ user, session }: GeneralFormProps) {
     });
   }
 
-  function onSubmitUsername(values: z.infer<typeof usernameSchema>) {
-    changeUsername.mutate({
-      ...values,
-    });
-  }
   return (
     <div className="flex flex-col gap-4">
-      <Form {...usernameForm}>
-        <form
-          onSubmit={usernameForm.handleSubmit(onSubmitUsername)}
-          className="flex flex-col gap-2"
-        >
-          <FormField
-            control={usernameForm.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs text-muted-foreground">
-                  Username
-                </FormLabel>
-                <FormControl>
-                  <div className="flex items-center gap-2">
-                    <Input
-                      {...field}
-                      placeholder="Front-End Developer"
-                      className="bg-accent focus-visible:ring-0"
-                    />
-                    {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" size="sm" className="ml-auto">
-            Done
-          </Button>
-        </form>
-      </Form>
+      <UsernameForm username={username} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

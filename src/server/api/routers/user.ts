@@ -37,6 +37,12 @@ export const userRouter = createTRPCRouter({
               createdAt: "desc",
             },
           },
+          status: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 1,
+          },
           contacts: true,
         },
       });

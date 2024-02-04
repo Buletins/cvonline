@@ -60,12 +60,12 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    isPusblished  Boolean   @default(false)
 
     profileImage String?
     title        String?
     location     String?
     website      String?
-    status       String?
     description  String?
 
     accounts    Account[]
@@ -73,6 +73,7 @@ model User {
     posts       Post[]
     experiences Experience[]
     contacts    Contacts[]
+    status      Status[]
 }
 
 model VerificationToken {
@@ -105,6 +106,17 @@ model Contacts {
     id           String @id @default(cuid())
     contactType  String
     contactValue String
+
+    user   User?   @relation(fields: [userId], references: [id])
+    userId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Status {
+    id     String @id @default(cuid())
+    status String
 
     user   User?   @relation(fields: [userId], references: [id])
     userId String?
