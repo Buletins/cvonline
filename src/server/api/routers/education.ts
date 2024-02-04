@@ -6,7 +6,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-export const experienceRouter = createTRPCRouter({
+export const educationRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
@@ -59,14 +59,14 @@ export const experienceRouter = createTRPCRouter({
     });
 
     if (user) {
-      const updatedValue = !user.experienceActive;
+      const updatedValue = !user.educationActive;
 
       return ctx.db.user.update({
         where: {
           id: ctx.session.user.id,
         },
         data: {
-          experienceActive: updatedValue,
+          educationActive: updatedValue,
         },
       });
     } else {

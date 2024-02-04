@@ -11,7 +11,7 @@ interface ExperienceTabProps {
 export default function ExperienceTab({ id, data }: ExperienceTabProps) {
   return (
     <BlockWrapper
-      title="Contact"
+      title="Experience"
       adding={<ExperienceForm />}
       listing={<WorkExperience id={id} data={data} />}
     />

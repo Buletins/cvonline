@@ -21,13 +21,14 @@ import { api } from "@/trpc/react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../ui/button";
 import UsernameForm from "./username-form";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2).max(48),
   title: z.string().min(2).max(50),
   location: z.string().min(2).max(50),
   email: z.string().min(2).max(50),
-  website: z.string().min(2).max(50),
+  website: z.string().min(0).optional(),
   description: z.string().min(2).max(500),
 });
 
@@ -48,12 +49,15 @@ interface GeneralFormProps {
 }
 
 export default function GeneralForm({ user, session }: GeneralFormProps) {
+  const router = useRouter();
+
   const { id, username, email, location, name, title, website, description } =
     user;
 
   const updateUser = api.user.update.useMutation({
     onSuccess: (data) => {
       toast.success("Changes have been saved.");
+      router.refresh();
     },
   });
 

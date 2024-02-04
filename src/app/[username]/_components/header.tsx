@@ -29,8 +29,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import StatusForm from "@/components/forms/status-form";
-import { api } from "@/trpc/react";
-import clsx from "clsx";
 
 interface HeaderProps {
   user: User & {
@@ -113,13 +111,15 @@ export default function Header({ user, session }: HeaderProps) {
                 <CopyIcon className="h-4 w-4" />
                 Email
               </Button>
-              <Button
-                variant="link"
-                className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
-              >
-                <ExternalLinkIcon className="h-4 w-4" />
-                Visit Website
-              </Button>
+              {user.website && (
+                <Button
+                  variant="link"
+                  className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
+                >
+                  <ExternalLinkIcon className="h-4 w-4" />
+                  Visit Website
+                </Button>
+              )}
             </div>
           </div>
         </div>

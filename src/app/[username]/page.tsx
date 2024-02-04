@@ -6,6 +6,7 @@ import Header from "./_components/header";
 import EditProfileBtn from "./_components/edit-profile-btn";
 import PublishBar from "./_components/publish-bar";
 import ExperienceItem from "./_components/experience-item";
+import ResumonBadge from "../_components/resumon-badge";
 
 export default async function ProfilePage({
   params,
@@ -19,6 +20,7 @@ export default async function ProfilePage({
   if (!session && !user?.isPusblished) return "This profile is not published";
 
   if (!user ?? !user?.email) return "use not found";
+
   return (
     <>
       <div className="flex flex-col gap-8 py-20">
@@ -30,11 +32,20 @@ export default async function ProfilePage({
               {user.description}
             </p>
           </ItemBlock>
-          <ItemBlock title="Experiences">
-            {user.experiences.map((item) => (
-              <ExperienceItem key={item.id} data={item} />
-            ))}
-          </ItemBlock>
+          {user.experienceActive && (
+            <ItemBlock title="Experiences">
+              {user.experiences.map((item) => (
+                <ExperienceItem key={item.id} data={item} />
+              ))}
+            </ItemBlock>
+          )}
+          {user.educationActive && (
+            <ItemBlock title="Education">
+              {user.experiences.map((item) => (
+                <ExperienceItem key={item.id} data={item} />
+              ))}
+            </ItemBlock>
+          )}
           <ItemBlock title="Contact">
             <ContactItem label="Email" href={user.email} />
             {user.contacts.map((item) => (
@@ -47,6 +58,7 @@ export default async function ProfilePage({
           </ItemBlock>
         </main>
       </div>
+      <ResumonBadge />
       {session && <EditProfileBtn user={user} session={session} />}
     </>
   );

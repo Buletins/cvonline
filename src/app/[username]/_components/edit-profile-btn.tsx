@@ -2,6 +2,7 @@
 
 import { EditIcon } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
 
 import type { Contact, Experience, User } from "@prisma/client";
@@ -9,9 +10,10 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import GeneralForm from "@/components/forms/general-form";
-import ContactForm from "@/components/forms/contact-form";
 import ExperienceTab from "@/components/blocks/experience-tab";
 import ContactTab from "@/components/blocks/contact-tab";
+import { Switch } from "@/components/ui/switch";
+import { api } from "@/trpc/react";
 
 interface EditProfileBtnProps {
   user: User & {
@@ -24,13 +26,42 @@ interface EditProfileBtnProps {
 export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
   const [activeTab, setActiveTab] = useState<string>("General");
 
+  const router = useRouter();
+
   if (session?.user.id != user.id) return null;
 
   const links = [
-    { label: "General" },
-    { label: "Experience" },
-    { label: "Contact" },
+    { label: "General", toggable: false },
+    { label: "Experience", toggable: true, status: user.experienceActive },
+    { label: "Education", toggable: true, status: user.educationActive },
+    { label: "Contact", toggable: false },
   ];
+
+  const toggleExperiences = api.experience.toggle.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
+
+  const toggleEducation = api.education.toggle.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
+
+  const toggleSwitch = (label: string) => {
+    switch (label) {
+      case "Experience":
+        toggleExperiences.mutate();
+        break;
+      case "Education":
+        toggleEducation.mutate();
+        break;
+      // Add more cases for other toggles if needed
+      default:
+        break;
+    }
+  };
 
   return (
     <Dialog>
@@ -46,16 +77,27 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
             <div className="px-6 text-lg">Profile</div>
             <div className="flex flex-col py-3">
               {links.map((item, index) => (
-                <button
+                <div
                   key={index}
-                  onClick={() => setActiveTab(item.label)}
                   className={cn(
-                    "w-full px-6 py-1.5 text-left text-sm text-muted-foreground",
+                    "flex items-center justify-between px-6",
                     activeTab === item.label && "bg-[#333] text-primary",
                   )}
                 >
-                  {item.label}
-                </button>
+                  <button
+                    onClick={() => setActiveTab(item.label)}
+                    className="w-full py-1.5 text-left text-sm text-muted-foreground"
+                  >
+                    {item.label}
+                  </button>
+                  {item.toggable && (
+                    <Switch
+                      className="h-auto"
+                      checked={item.status}
+                      onCheckedChange={() => toggleSwitch(item.label)}
+                    />
+                  )}
+                </div>
               ))}
             </div>
           </div>

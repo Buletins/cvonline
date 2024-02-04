@@ -73,6 +73,8 @@ model User {
     posts            Post[]
     experiences      Experience[]
     experienceActive Boolean      @default(false)
+    educations       Education[]
+    educationActive  Boolean      @default(false)
     contacts         Contact[]
     status           Status[]
 }
@@ -90,6 +92,27 @@ model Experience {
     title    String
     location String
     company  String
+
+    description String
+    fromYear    String
+    toYear      String?
+
+    isDraft Boolean @default(true)
+
+    user   User?   @relation(fields: [userId], references: [id])
+    userId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([title])
+}
+
+model Education {
+    id       String @id @default(cuid())
+    title    String
+    location String
+    school   String
 
     description String
     fromYear    String
