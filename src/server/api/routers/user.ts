@@ -7,7 +7,7 @@ import {
 } from "@/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
-  getByUsernam: protectedProcedure
+  getByUsernam: publicProcedure
     .input(z.object({ username: z.string().min(1) }))
     .query(({ ctx, input }) => {
       return ctx.db.user.findFirst({

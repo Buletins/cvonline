@@ -7,6 +7,32 @@ import EditProfileBtn from "./_components/edit-profile-btn";
 import PublishBar from "./_components/publish-bar";
 import ExperienceItem from "./_components/experience-item";
 import ResumonBadge from "../_components/resumon-badge";
+import { Metadata } from "next";
+
+type Props = {
+  params: { username: string };
+};
+
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  // FIX
+
+  const user = await api.user.getByUsernam.query({ username: params.username });
+  const ogResponse = await fetch(
+    `https://autolijst-t3.vercel.app/api/og?title=`,
+  );
+  const ogImageUrl = ogResponse.url;
+
+  if (!user) return {};
+  return {
+    description: `${user.name}`,
+    title: "321",
+    openGraph: {
+      images: [ogImageUrl],
+    },
+  };
+};
 
 export default async function ProfilePage({
   params,

@@ -16,7 +16,7 @@ export default function WorkExperience({ id, data }: WorkExperienceProps) {
   return (
     <div className="flex flex-col gap-2">
       {data.map((item) => (
-        <WorkExperienceItem id={id} item={item} />
+        <WorkExperienceItem key={item.id} id={id} item={item} />
       ))}
     </div>
   );
@@ -77,7 +77,7 @@ function WorkExperienceItem({ id, item }: WorkExperienceProps) {
         {isConfirm ? (
           <div className="flex flex-col items-end gap-2">
             <div className="text-sm tracking-tight">
-              Are you sure? This can't be undone.
+              Are you sure? This cant be undone.
             </div>
             <div className="flex items-center gap-4">
               <Button

@@ -82,27 +82,39 @@ export default function Header({ user, session }: HeaderProps) {
               className="h-full w-full rounded-full"
             />
             <CameraIcon className="h-6 w-6 text-muted-foreground" />
-            <TooltipProvider delayDuration={100}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="absolute bottom-0 right-0">
-                    <button
-                      onClick={() => setIsStatusOpen(!isStatusOpen)}
-                      className="flex items-center justify-center rounded-full bg-black px-1.5 py-1"
-                    >
-                      {status ? (
-                        <div className="text-xs">{status.emoji}</div>
-                      ) : (
-                        <SmilePlusIcon className="h-3 w-3 text-muted-foreground" />
-                      )}
-                    </button>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="py-1">
-                  <p>Add a status</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {session?.user.id === user.id ? (
+              <TooltipProvider delayDuration={100}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="absolute bottom-0 right-0">
+                      <button
+                        onClick={() => setIsStatusOpen(!isStatusOpen)}
+                        className="flex items-center justify-center rounded-full bg-black px-1.5 py-1"
+                      >
+                        {status ? (
+                          <div className="text-xs">{status.emoji}</div>
+                        ) : (
+                          <SmilePlusIcon className="h-3 w-3 text-muted-foreground" />
+                        )}
+                      </button>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent className="py-1">
+                    <p>Add a status</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            ) : (
+              <div className="absolute bottom-0 right-0">
+                <div className="flex items-center justify-center rounded-full bg-black px-1.5 py-1">
+                  {status ? (
+                    <div className="text-xs">{status.emoji}</div>
+                  ) : (
+                    <SmilePlusIcon className="h-3 w-3 text-muted-foreground" />
+                  )}
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex w-full flex-col">
             <div className="flex flex-col">

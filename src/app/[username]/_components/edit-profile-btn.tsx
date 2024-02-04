@@ -1,6 +1,6 @@
 "use client";
 
-import { EditIcon } from "lucide-react";
+import { CookingPot, EditIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
@@ -38,8 +38,13 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
   ];
 
   const toggleExperiences = api.experience.toggle.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       router.refresh();
+      console.log(data);
+    },
+    onError: (data) => {
+      console.log("first");
+      console.log(data);
     },
   });
 
