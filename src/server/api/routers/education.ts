@@ -3,7 +3,6 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
 } from "@/server/api/trpc";
 
 export const educationRouter = createTRPCRouter({
@@ -28,8 +27,7 @@ export const educationRouter = createTRPCRouter({
     }),
 
   get: protectedProcedure
-    .input(z.object({ id: z.string().min(1) }))
-    .query(({ ctx, input }) => {
+    .query(({ ctx}) => {
       return ctx.db.experience.findMany({
         where: { id: ctx.session.user.id },
       });

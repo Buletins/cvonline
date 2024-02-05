@@ -34,10 +34,10 @@ function EducationItem({ id, item }: EducationProps) {
   const router = useRouter();
 
   const deleteExperience = api.experience.delete.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       router.refresh();
     },
-    onSettled: (data) => {
+    onSettled: () => {
       router.refresh();
     },
   });

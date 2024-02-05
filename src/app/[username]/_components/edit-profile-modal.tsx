@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import type { Contact, Education, Experience, User } from "@prisma/client";
 
 import { api } from "@/trpc/react";

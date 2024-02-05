@@ -3,7 +3,6 @@
 import { z } from "zod";
 import type { User } from "@prisma/client";
 import { useForm } from "react-hook-form";
-import { Session } from "next-auth";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -45,10 +44,9 @@ interface GeneralFormProps {
     | "description"
     | "isPusblished"
   >;
-  session: Session | null;
 }
 
-export default function GeneralForm({ user, session }: GeneralFormProps) {
+export default function GeneralForm({ user }: GeneralFormProps) {
   const router = useRouter();
 
   const {
@@ -64,7 +62,7 @@ export default function GeneralForm({ user, session }: GeneralFormProps) {
   } = user;
 
   const updateUser = api.user.update.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Changes have been saved.");
       router.refresh();
     },

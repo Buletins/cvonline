@@ -10,7 +10,7 @@ const replicate = new Replicate({
 export const replicateRouter = createTRPCRouter({
   generateDescription: protectedProcedure
     .input(z.object({ prompt: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({  input }) => {
       const output = await replicate.run(
         "replicate-internal/staging-llama-2-70b-chat-hf-mlc:a0a2781978454e825c3b81e87d6cff5928c43ad81bdc23b5cf11300d40b92916",
         {

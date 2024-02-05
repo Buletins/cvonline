@@ -34,10 +34,10 @@ function WorkExperienceItem({ id, item }: WorkExperienceProps) {
   const router = useRouter();
 
   const deleteExperience = api.experience.delete.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       router.refresh();
     },
-    onSettled: (data) => {
+    onSettled: () => {
       router.refresh();
     },
   });

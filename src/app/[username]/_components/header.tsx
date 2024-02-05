@@ -8,7 +8,7 @@ import {
   SmilePlusIcon,
   XIcon,
 } from "lucide-react";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { useState } from "react";
 import type { Status, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -68,9 +68,9 @@ export default function Header({ user, session }: HeaderProps) {
                 Bewerk profiel
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => {
+                onClick={async () => {
                   toast.success("You have been logged out.");
-                  signOut({ callbackUrl: "/" });
+                  await signOut({ callbackUrl: "/" });
                 }}
               >
                 Log uit

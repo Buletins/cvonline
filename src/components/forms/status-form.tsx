@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -13,7 +13,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -39,12 +38,12 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
   const router = useRouter();
 
   const addStatus = api.status.create.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Username changed");
       setIsStatusOpen(false);
       router.refresh();
     },
-    onError: (data) => {
+    onError: () => {
       toast.error("Username allready exists");
     },
   });

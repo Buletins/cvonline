@@ -36,7 +36,7 @@ const formSchema = z.object({
 
 export default function ExperienceForm() {
   const createExperience = api.experience.create.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Changes have been saved.");
     },
   });

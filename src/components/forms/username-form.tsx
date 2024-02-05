@@ -56,7 +56,7 @@ export default function UsernameForm({
       router.push(`${data.username?.toLocaleLowerCase()}`);
       setIsLoading(false);
     },
-    onError: (data) => {
+    onError: () => {
       toast.error("Username allready exists");
       setIsLoading(false);
     },

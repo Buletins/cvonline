@@ -34,21 +34,21 @@ export default function ContactForm() {
   const router = useRouter();
 
   const addContact = api.contact.create.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Contact added.");
       router.refresh();
     },
   });
 
-  const deleteContact = api.contact.delete.useMutation({
-    onSuccess: (data) => {
-      toast.success("Contact deleted.");
-      router.refresh();
-    },
-    onSettled: (data) => {
-      router.refresh();
-    },
-  });
+  // const deleteContact = api.contact.delete.useMutation({
+  //   onSuccess: () => {
+  //     toast.success("Contact deleted.");
+  //     router.refresh();
+  //   },
+  //   onSettled: () => {
+  //     router.refresh();
+  //   },
+  // });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
