@@ -68,7 +68,6 @@ export default function EditProfileModal({
       case "Education":
         toggleEducation.mutate();
         break;
-      // Add more cases for other toggles if needed
       default:
         break;
     }
@@ -79,7 +78,7 @@ export default function EditProfileModal({
       <DialogContent className="h-full max-h-[760px] min-h-[760px] w-full max-w-3xl bg-background/50 p-0 backdrop-blur-lg">
         <div className="flex w-full overflow-hidden">
           <div className="w-60 border-r py-6">
-            <div className="px-6 text-lg">Profile</div>
+            <div className="px-6 text-lg">{session.user.name}</div>
             <div className="flex flex-col py-3">
               {links.map((item, index) => (
                 <div

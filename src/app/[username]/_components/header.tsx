@@ -4,7 +4,6 @@ import {
   CameraIcon,
   CopyIcon,
   ExternalLinkIcon,
-  MoreHorizontalIcon,
   SmilePlusIcon,
   XIcon,
 } from "lucide-react";
@@ -12,11 +11,8 @@ import type { Session } from "next-auth";
 import { useState } from "react";
 import type { Status, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { signOut } from "next-auth/react";
 
 import { api } from "@/trpc/react";
-import { useEditProfile } from "@/hooks/use-editprofile";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -24,13 +20,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import StatusForm from "@/components/forms/status-form";
+import UserMenu from "./user-menu";
 
 interface HeaderProps {
   user: Pick<User, "location" | "id" | "website" | "name" | "title"> & {
@@ -42,7 +33,6 @@ interface HeaderProps {
 export default function Header({ user, session }: HeaderProps) {
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
   const router = useRouter();
-  const editProfile = useEditProfile();
 
   const { status, id, location, website, name, title } = user;
 
@@ -54,30 +44,7 @@ export default function Header({ user, session }: HeaderProps) {
 
   return (
     <header className="relative mx-auto flex w-full max-w-lg flex-col gap-4">
-      {session && (
-        <div className="absolute right-0 top-0 flex items-center gap-2">
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <Button size="sm" variant="outline" className="px-1">
-                <MoreHorizontalIcon className="h-3 w-3" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => editProfile.open()}>
-                Bewerk profiel
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={async () => {
-                  toast.success("You have been logged out.");
-                  await signOut({ callbackUrl: "/" });
-                }}
-              >
-                Log uit
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      )}
+      {session && <UserMenu />}
       <div className="flex items-center gap-4">
         <div className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full border">
           <img
@@ -93,7 +60,7 @@ export default function Header({ user, session }: HeaderProps) {
                   <div className="absolute bottom-0 right-0">
                     <button
                       onClick={() => setIsStatusOpen(!isStatusOpen)}
-                      className="flex items-center justify-center rounded-full bg-black px-1.5 py-1"
+                      className="flex items-center justify-center rounded-full bg-transparent px-1.5 py-1 backdrop-blur-lg"
                     >
                       {status ? (
                         <div className="text-xs">{status.emoji}</div>
@@ -110,7 +77,7 @@ export default function Header({ user, session }: HeaderProps) {
             </TooltipProvider>
           ) : (
             <div className="absolute bottom-0 right-0">
-              <div className="flex items-center justify-center rounded-full bg-black px-1.5 py-1">
+              <div className="flex items-center justify-center rounded-full bg-transparent px-1.5 py-1">
                 {status ? (
                   <div className="text-xs">{status.emoji}</div>
                 ) : (
@@ -141,9 +108,12 @@ export default function Header({ user, session }: HeaderProps) {
               <Button
                 variant="link"
                 className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
+                asChild
               >
-                <ExternalLinkIcon className="h-4 w-4" />
-                Visit Website
+                <a href="">
+                  <ExternalLinkIcon className="h-4 w-4" />
+                  Visit Website
+                </a>
               </Button>
             )}
           </div>

@@ -55,7 +55,11 @@ export default async function ProfilePage({
         {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
-          <ItemBlock title="About">
+          <ItemBlock
+            title={`Over ${
+              session?.user.name ? session.user.name.match(/^\S+/)?.[0] : ""
+            }:`}
+          >
             <p className="text-sm leading-tight tracking-tight text-muted-foreground">
               {user.description}
             </p>
@@ -63,14 +67,14 @@ export default async function ProfilePage({
           {user.experienceActive && (
             <ItemBlock title="Werkervaring">
               {user.experiences.map((item) => (
-                <ExperienceItem key={item.id} data={item} />
+                <ExperienceItem key={item.id} data={item} session={session} />
               ))}
             </ItemBlock>
           )}
           {user.educationActive && (
             <ItemBlock title="Opleidingen">
               {user.educations.map((item) => (
-                <EducationItem key={item.id} data={item} />
+                <EducationItem key={item.id} data={item} session={session} />
               ))}
             </ItemBlock>
           )}
