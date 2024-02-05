@@ -59,6 +59,13 @@ export default function ExperienceForm() {
     });
   }
 
+  const currentYear = new Date().getFullYear();
+  const startYear = 1975;
+  const years = Array.from(
+    { length: currentYear - startYear + 1 },
+    (_, index) => currentYear - index,
+  );
+
   return (
     <Form {...form}>
       <form
@@ -75,11 +82,7 @@ export default function ExperienceForm() {
                   title
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
-                  />
+                  <Input {...field} placeholder="Front-End Developer" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -94,11 +97,7 @@ export default function ExperienceForm() {
                   company
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
-                  />
+                  <Input {...field} placeholder="Front-End Developer" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -114,11 +113,7 @@ export default function ExperienceForm() {
                 Location
               </FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Front-End Developer"
-                  className="bg-accent focus-visible:ring-0"
-                />
+                <Input {...field} placeholder="Front-End Developer" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -143,9 +138,11 @@ export default function ExperienceForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="1974">1974</SelectItem>
-                    <SelectItem value="1975">1975</SelectItem>
-                    <SelectItem value="1976">1976</SelectItem>
+                    {years.map((item, index) => (
+                      <SelectItem key={index} value={item.toString()}>
+                        {item}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -170,9 +167,11 @@ export default function ExperienceForm() {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="2024">2024</SelectItem>
-                    <SelectItem value="2023">2023</SelectItem>
-                    <SelectItem value="2022">2022</SelectItem>
+                    {years.map((item, index) => (
+                      <SelectItem key={index} value={item.toString()}>
+                        {item}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -180,7 +179,6 @@ export default function ExperienceForm() {
             )}
           />
         </div>
-
         <FormField
           control={form.control}
           name="description"
@@ -194,7 +192,6 @@ export default function ExperienceForm() {
                   {...field}
                   rows={8}
                   placeholder="Front-End Developer"
-                  className="resize-none bg-accent focus-visible:ring-0"
                 />
               </FormControl>
               <FormMessage />

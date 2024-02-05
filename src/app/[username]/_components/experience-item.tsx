@@ -9,16 +9,16 @@ export default function ExperienceItem({ data }: ExperienceItemProps) {
 
   return (
     <div className="flex items-start gap-4">
-      <div className="shrink-0 text-xs text-muted-foreground">
+      <div className="shrink-0 text-xs/none text-muted-foreground">
         {fromYear} - {toYear}
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex flex-col">
-          <div className="text-sm font-medium tracking-tight">
-            {data.title} at {data.company}
+          <div className="text-sm/none font-medium tracking-tight">
+            {title} at {company}
           </div>
           <div className="text-xs font-medium tracking-tight text-muted-foreground">
-            {data.location}
+            {location}
           </div>
         </div>
         <p className="w-full break-words text-sm leading-tight tracking-tight">

@@ -81,4 +81,27 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
+
+  publishProfile: protectedProcedure.mutation(async ({ ctx }) => {
+    const user = await ctx.db.user.findFirst({
+      where: {
+        id: ctx.session.user.id,
+      },
+    });
+
+    if (!user?.isPusblished) {
+      const updatedValue = !user?.isPusblished;
+
+      return ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          isPusblished: updatedValue,
+        },
+      });
+    } else {
+      return "you can now see this secret message!";
+    }
+  }),
 });

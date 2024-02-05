@@ -6,6 +6,7 @@ import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Loader } from "lucide-react";
+import { Switch } from "../ui/switch";
 
 interface WorkExperienceProps {
   id: string;
@@ -14,7 +15,7 @@ interface WorkExperienceProps {
 
 export default function WorkExperience({ id, data }: WorkExperienceProps) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4 overflow-hidden">
       {data.map((item) => (
         <WorkExperienceItem key={item.id} id={id} item={item} />
       ))}
@@ -46,7 +47,7 @@ function WorkExperienceItem({ id, item }: WorkExperienceProps) {
   return (
     <div
       key={item.id}
-      className="relative flex items-end justify-between gap-4"
+      className="relative flex items-end justify-between gap-4 border-b border-border/50 pb-4 last:border-b-0"
     >
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
@@ -56,7 +57,7 @@ function WorkExperienceItem({ id, item }: WorkExperienceProps) {
       <div className="flex flex-col">
         <div className="flex flex-col gap-2">
           <div className="flex flex-col">
-            <div className="font-medium tracking-tight ">
+            <div className="font-medium leading-none tracking-tight ">
               {item.title} at {item.company}
             </div>
             <div className="flex items-center gap-2">
@@ -73,7 +74,8 @@ function WorkExperienceItem({ id, item }: WorkExperienceProps) {
           </p>
         </div>
       </div>
-      <div className="relative flex items-center gap-4">
+      <div className="relative flex h-full flex-col items-end justify-between gap-4">
+        <Switch id="published-status" />
         {isConfirm ? (
           <div className="flex flex-col items-end gap-2">
             <div className="text-sm tracking-tight">

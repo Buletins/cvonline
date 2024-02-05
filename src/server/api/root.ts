@@ -5,6 +5,7 @@ import { experienceRouter } from "./routers/experience";
 import { contactRouter } from "./routers/contact";
 import { statusRouter } from "./routers/status";
 import { educationRouter } from "./routers/education";
+import { replicateRouter } from "./routers/replicate";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   contact: contactRouter,
   status: statusRouter,
   education: educationRouter,
+  replicate: replicateRouter,
 });
 
 // export type definition of API

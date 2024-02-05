@@ -32,6 +32,7 @@ import {
 import StatusForm from "@/components/forms/status-form";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { useEditProfile } from "@/hooks/use-editprofile";
 
 interface HeaderProps {
   user: User & {
@@ -44,6 +45,7 @@ interface HeaderProps {
 export default function Header({ user, session }: HeaderProps) {
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
   const router = useRouter();
+  const editProfile = useEditProfile();
 
   const { status, location, name, title } = user;
 
@@ -65,7 +67,9 @@ export default function Header({ user, session }: HeaderProps) {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>Edit profile</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => editProfile.open()}>
+                  Edit profile
+                </DropdownMenuItem>
                 <DropdownMenuItem>Sign out</DropdownMenuItem>
                 <DropdownMenuItem>
                   <SignOut />
@@ -116,7 +120,7 @@ export default function Header({ user, session }: HeaderProps) {
               </div>
             )}
           </div>
-          <div className="flex w-full flex-col">
+          <div className="flex w-full flex-col gap-1">
             <div className="flex flex-col">
               <h1 className="text-xl/none font-semibold tracking-tight">
                 {name}

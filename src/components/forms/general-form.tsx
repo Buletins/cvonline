@@ -44,6 +44,7 @@ interface GeneralFormProps {
     | "website"
     | "profileImage"
     | "description"
+    | "isPusblished"
   >;
   session: Session | null;
 }
@@ -51,13 +52,28 @@ interface GeneralFormProps {
 export default function GeneralForm({ user, session }: GeneralFormProps) {
   const router = useRouter();
 
-  const { id, username, email, location, name, title, website, description } =
-    user;
+  const {
+    id,
+    username,
+    email,
+    isPusblished,
+    location,
+    name,
+    title,
+    website,
+    description,
+  } = user;
 
   const updateUser = api.user.update.useMutation({
     onSuccess: (data) => {
       toast.success("Changes have been saved.");
       router.refresh();
+    },
+  });
+
+  const generateDescription = api.replicate.generateDescription.useMutation({
+    onSuccess: (data) => {
+      console.log(data);
     },
   });
 
@@ -82,7 +98,7 @@ export default function GeneralForm({ user, session }: GeneralFormProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <UsernameForm username={username} />
+      <UsernameForm isPublished={isPusblished} username={username} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -192,12 +208,29 @@ export default function GeneralForm({ user, session }: GeneralFormProps) {
                   Description
                 </FormLabel>
                 <FormControl>
-                  <Textarea
-                    {...field}
-                    rows={8}
-                    placeholder="Front-End Developer"
-                    className="resize-none bg-accent focus-visible:ring-0"
-                  />
+                  <div className="relative h-full w-full">
+                    <Textarea
+                      {...field}
+                      rows={8}
+                      placeholder="Front-End Developer"
+                      className="resize-none bg-accent focus-visible:ring-0"
+                    />
+                    <div className="absolute right-2 top-2">
+                      <Button
+                        onClick={() =>
+                          generateDescription.mutate({
+                            prompt:
+                              "Can you write a small description for my resume, i am a front end developer from belgium, please limit it to 200 characters.",
+                          })
+                        }
+                        type="button"
+                        size="sm"
+                        className="px-1 py-0.5 text-xs"
+                      >
+                        Ask AI
+                      </Button>
+                    </div>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

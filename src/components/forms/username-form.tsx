@@ -23,19 +23,36 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
 });
 
 interface UsernameFormProps {
+  isPublished: boolean;
   username: string;
 }
 
-export default function UsernameForm({ username }: UsernameFormProps) {
+export default function UsernameForm({
+  isPublished,
+  username,
+}: UsernameFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
+
+  const togglePublish = api.user.publishProfile.useMutation({
+    onSuccess: (data) => {
+      router.refresh();
+      console.log(data);
+    },
+    onError: (data) => {
+      console.log("first");
+      console.log(data);
+    },
+  });
 
   const changeUsername = api.user.changeUsername.useMutation({
     onSuccess: (data) => {
@@ -94,9 +111,19 @@ export default function UsernameForm({ username }: UsernameFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" size="sm" className="ml-auto">
-          Done
-        </Button>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Switch
+              onCheckedChange={() => togglePublish.mutate()}
+              checked={isPublished}
+              id="published-status"
+            />
+            <Label htmlFor="published-status">Airplane Mode</Label>
+          </div>
+          <Button type="submit" size="sm">
+            Change username
+          </Button>
+        </div>
       </form>
     </Form>
   );

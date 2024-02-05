@@ -14,8 +14,9 @@ import ExperienceTab from "@/components/blocks/experience-tab";
 import ContactTab from "@/components/blocks/contact-tab";
 import { Switch } from "@/components/ui/switch";
 import { api } from "@/trpc/react";
+import { useEditProfile } from "@/hooks/use-editprofile";
 
-interface EditProfileBtnProps {
+interface EditProfileModalProps {
   user: User & {
     experiences: Experience[];
     contacts: Contact[];
@@ -23,10 +24,14 @@ interface EditProfileBtnProps {
   session: Session | null;
 }
 
-export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
+export default function EditProfileModal({
+  user,
+  session,
+}: EditProfileModalProps) {
   const [activeTab, setActiveTab] = useState<string>("General");
 
   const router = useRouter();
+  const editProfile = useEditProfile();
 
   if (session?.user.id != user.id) return null;
 
@@ -69,15 +74,9 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="fixed bottom-4 left-4 gap-2">
-          <EditIcon className="h-4 w-4" />
-          Edit Profile
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="min-h-[760px] w-full max-w-3xl bg-background/50 p-0 backdrop-blur-lg">
-        <div className="flex w-full">
+    <Dialog open={editProfile.status} onOpenChange={() => editProfile.close()}>
+      <DialogContent className="h-full max-h-[760px] min-h-[760px] w-full max-w-3xl bg-background/50 p-0 backdrop-blur-lg">
+        <div className="flex w-full overflow-hidden">
           <div className="w-60 border-r py-6">
             <div className="px-6 text-lg">Profile</div>
             <div className="flex flex-col py-3">
@@ -97,7 +96,6 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
                   </button>
                   {item.toggable && (
                     <Switch
-                      className="h-auto"
                       checked={item.status}
                       onCheckedChange={() => toggleSwitch(item.label)}
                     />
@@ -107,7 +105,7 @@ export default function EditProfileBtn({ user, session }: EditProfileBtnProps) {
             </div>
           </div>
           <div className="relative flex-grow">
-            <div className="h-full px-4 py-8">
+            <div className="h-full overflow-hidden px-4 py-8">
               {activeTab === "General" && (
                 <GeneralForm user={user} session={session} />
               )}
