@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
   },
   adapter: {
     ...PrismaAdapter(db),
+    // @ts-expect-error I need to try and fix this :)
     createUser: (data) =>
       db.user.create({ data: { ...data, username: nanoid() } }),
   },
