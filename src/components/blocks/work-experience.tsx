@@ -85,7 +85,6 @@ function WorkExperienceItem({ id, item }: WorkExperienceProps) {
               <Button
                 onClick={() =>
                   deleteExperience.mutate({
-                    userId: id,
                     id: item.id,
                   })
                 }
