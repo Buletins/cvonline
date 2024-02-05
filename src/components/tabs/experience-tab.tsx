@@ -1,8 +1,8 @@
 import type { Experience } from "@prisma/client";
 
-import BlockWrapper from "./block-wrapper";
+import BlockWrapper from "../blocks/block-wrapper";
 import ExperienceForm from "../forms/experience-form";
-import WorkExperience from "./work-experience";
+import WorkExperience from "../blocks/work-experience";
 
 interface ExperienceTabProps {
   id: string;

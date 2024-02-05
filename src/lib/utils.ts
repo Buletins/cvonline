@@ -11,3 +11,4 @@ export const nanoid = customAlphabet(
   7,
 );
 
+export const contacts = [{label:"LinkedIn", href:""}]

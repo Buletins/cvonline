@@ -84,11 +84,14 @@ export default function ContactForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a verified email to display" />
+                      <SelectValue placeholder="Selecteer een contact" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="linkedin">LinkedIn</SelectItem>
+                    <SelectItem value="LinkedIn">LinkedIn</SelectItem>
+                    <SelectItem value="Twitter">Twitter</SelectItem>
+                    <SelectItem value="Instagram">Instagram</SelectItem>
+                    <SelectItem value="Youtube">Youtube</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />

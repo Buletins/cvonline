@@ -1,7 +1,7 @@
-import BlockWrapper from "./block-wrapper";
+import BlockWrapper from "../blocks/block-wrapper";
 
 import type { Contact } from "@prisma/client";
-import ContactBlock from "./contact-block";
+import ContactBlock from "../blocks/contact-block";
 import ContactForm from "../forms/contact-form";
 
 interface ContactTabProps {

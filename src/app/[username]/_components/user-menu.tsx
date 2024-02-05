@@ -1,4 +1,4 @@
-import { CircleUserIcon, LogOutIcon, MoreHorizontalIcon, PrinterIcon } from "lucide-react";
+import { CircleUserIcon, LogOutIcon, MoreHorizontalIcon } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { toast } from "sonner";
 
@@ -13,6 +13,7 @@ import {
 
 export default function UserMenu() {
   const editProfile = useEditProfile();
+  // const printCv = usePrintCv();
 
   return (
     <div className="absolute right-0 top-0 flex items-center gap-2">
@@ -25,24 +26,21 @@ export default function UserMenu() {
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             onClick={() => editProfile.open()}
-            className="gap-1"
+            className="gap-2"
           >
             <CircleUserIcon className="h-4 w-4" />
             Profiel
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => editProfile.open()}
-            className="gap-1"
-          >
+          {/* <DropdownMenuItem onClick={() => printCv.open()} className="gap-2">
             <PrinterIcon className="h-4 w-4" />
             Print CV
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           <DropdownMenuItem
             onClick={async () => {
               toast.success("You have been logged out.");
               await signOut({ callbackUrl: "/" });
             }}
-            className="gap-1"
+            className="gap-2"
           >
             <LogOutIcon className="h-4 w-4" />
             Log uit

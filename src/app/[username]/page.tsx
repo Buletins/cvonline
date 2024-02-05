@@ -10,6 +10,9 @@ import ExperienceItem from "./_components/experience-item";
 import ResumonBadge from "../_components/resumon-badge";
 import EditProfileModal from "./_components/edit-profile-modal";
 import EducationItem from "./_components/education-item";
+import PrintCv from "./_components/print-cv";
+import { Progress } from "@/components/ui/progress";
+import LanguageItem from "./_components/language-item";
 
 type Props = {
   params: { username: string };
@@ -51,6 +54,7 @@ export default async function ProfilePage({
 
   return (
     <>
+      <PrintCv user={user} />
       <div className="flex flex-col gap-8 py-20">
         {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
@@ -78,6 +82,9 @@ export default async function ProfilePage({
               ))}
             </ItemBlock>
           )}
+          <ItemBlock title="Talen" tighter>
+            <LanguageItem />
+          </ItemBlock>
           <ItemBlock title="Contact" tighter>
             <ContactItem label="Email" href={user.email} />
             {user.contacts.map((item) => (

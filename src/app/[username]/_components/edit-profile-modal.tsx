@@ -12,9 +12,10 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import GeneralForm from "@/components/forms/general-form";
-import ExperienceTab from "@/components/blocks/experience-tab";
-import ContactTab from "@/components/blocks/contact-tab";
-import EducationTab from "@/components/blocks/education-tab";
+import ExperienceTab from "@/components/tabs/experience-tab";
+import ContactTab from "@/components/tabs/contact-tab";
+import EducationTab from "@/components/tabs/education-tab";
+import LanguageTab from "@/components/tabs/language-tab";
 
 interface EditProfileModalProps {
   user: User & {
@@ -29,7 +30,7 @@ export default function EditProfileModal({
   user,
   session,
 }: EditProfileModalProps) {
-  const [activeTab, setActiveTab] = useState<string>("General");
+  const [activeTab, setActiveTab] = useState<string>("Algemeen");
 
   const router = useRouter();
   const editProfile = useEditProfile();
@@ -37,9 +38,10 @@ export default function EditProfileModal({
   if (session?.user.id != user.id) return null;
 
   const links = [
-    { label: "General", toggable: false },
-    { label: "Experience", toggable: true, status: user.experienceActive },
-    { label: "Education", toggable: true, status: user.educationActive },
+    { label: "Algemeen", toggable: false },
+    { label: "Werkervaring", toggable: true, status: user.experienceActive },
+    { label: "Opleiding", toggable: true, status: user.educationActive },
+    { label: "Talen", toggable: true, status: user.educationActive },
     { label: "Contact", toggable: false },
   ];
 
@@ -62,10 +64,10 @@ export default function EditProfileModal({
 
   const toggleSwitch = (label: string) => {
     switch (label) {
-      case "Experience":
+      case "Werkervaring":
         toggleExperiences.mutate();
         break;
-      case "Education":
+      case "Opleiding":
         toggleEducation.mutate();
         break;
       default:
@@ -106,13 +108,14 @@ export default function EditProfileModal({
           </div>
           <div className="relative flex-grow">
             <div className="h-full overflow-hidden px-4 py-8">
-              {activeTab === "General" && <GeneralForm user={user} />}
-              {activeTab === "Experience" && (
+              {activeTab === "Algemeen" && <GeneralForm user={user} />}
+              {activeTab === "Werkervaring" && (
                 <ExperienceTab id={session.user.id} data={user.experiences} />
               )}
-              {activeTab === "Education" && (
+              {activeTab === "Opleiding" && (
                 <EducationTab id={session.user.id} data={user.educations} />
               )}
+              {activeTab === "Talen" && <LanguageTab data={user.contacts} />}
               {activeTab === "Contact" && <ContactTab data={user.contacts} />}
             </div>
             <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-lg">

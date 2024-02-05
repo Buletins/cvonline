@@ -1,8 +1,8 @@
 import type { Education } from "@prisma/client";
 
-import BlockWrapper from "./block-wrapper";
+import BlockWrapper from "../blocks/block-wrapper";
 import EducationForm from "../forms/education-form";
-import EducationItems from "./education-items";
+import EducationItems from "../blocks/education-items";
 
 interface EducationTabProps {
   id: string;
