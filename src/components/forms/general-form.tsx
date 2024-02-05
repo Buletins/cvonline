@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form";
 import { Session } from "next-auth";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
+import { api } from "@/trpc/react";
 import {
   Form,
   FormControl,
@@ -15,13 +17,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-import { api } from "@/trpc/react";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import UsernameForm from "./username-form";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2).max(48),

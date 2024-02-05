@@ -12,14 +12,14 @@ export const educationRouter = createTRPCRouter({
       z.object({
         title: z.string().min(2).max(48),
         location: z.string().min(2).max(48),
-        company: z.string().min(2).max(48),
+        school: z.string().min(2).max(48),
         description: z.string().min(2).max(200),
         fromYear: z.string().min(2).max(48),
         toYear: z.string().min(2).max(48),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.experience.create({
+      return ctx.db.education.create({
         data: {
           userId: ctx.session?.user.id,
           ...input,

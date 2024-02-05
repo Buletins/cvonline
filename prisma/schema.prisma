@@ -89,10 +89,11 @@ model VerificationToken {
 }
 
 model Experience {
-    id       String @id @default(cuid())
+    id       String  @id @default(cuid())
     title    String
     location String
     company  String
+    website  String?
 
     description String
     fromYear    String
@@ -110,10 +111,11 @@ model Experience {
 }
 
 model Education {
-    id       String @id @default(cuid())
+    id       String  @id @default(cuid())
     title    String
     location String
     school   String
+    website  String?
 
     description String
     fromYear    String

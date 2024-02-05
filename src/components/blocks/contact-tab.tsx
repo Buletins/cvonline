@@ -1,6 +1,6 @@
 import BlockWrapper from "./block-wrapper";
 
-import { Contact } from "@prisma/client";
+import type { Contact } from "@prisma/client";
 import ContactBlock from "./contact-block";
 import ContactForm from "../forms/contact-form";
 

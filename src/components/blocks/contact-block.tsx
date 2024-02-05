@@ -1,4 +1,5 @@
-import { Contact } from "@prisma/client";
+import type { Contact } from "@prisma/client";
+
 import { Button } from "../ui/button";
 
 interface ContactBlockProps {

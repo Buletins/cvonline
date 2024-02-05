@@ -1,14 +1,12 @@
 "use client";
 
 import { z } from "zod";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-import { useState } from "react";
-
-import type { User } from "@prisma/client";
-
+import { api } from "@/trpc/react";
 import {
   Form,
   FormControl,
@@ -17,13 +15,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { api } from "@/trpc/react";
-import { Session } from "next-auth";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -37,11 +30,7 @@ const formSchema = z.object({
   contactValue: z.string().min(2).max(48),
 });
 
-interface ContactFormProps {
-  user: Pick<User, "id">;
-}
-
-export default function ContactForm({ user }: ContactFormProps) {
+export default function ContactForm() {
   const router = useRouter();
 
   const addContact = api.contact.create.useMutation({

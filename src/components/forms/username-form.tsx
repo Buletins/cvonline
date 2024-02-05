@@ -1,12 +1,14 @@
 "use client";
 
 import { z } from "zod";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
-import type { User } from "@prisma/client";
-
+import { api } from "@/trpc/react";
 import {
   Form,
   FormControl,
@@ -15,14 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { api } from "@/trpc/react";
-import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 

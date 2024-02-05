@@ -1,24 +1,25 @@
 "use client";
 
-import { CookingPot, EditIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Session } from "next-auth";
+import type { Contact, Education, Experience, User } from "@prisma/client";
 
-import type { Contact, Experience, User } from "@prisma/client";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { api } from "@/trpc/react";
 import { cn } from "@/lib/utils";
+import { useEditProfile } from "@/hooks/use-editprofile";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import GeneralForm from "@/components/forms/general-form";
 import ExperienceTab from "@/components/blocks/experience-tab";
 import ContactTab from "@/components/blocks/contact-tab";
-import { Switch } from "@/components/ui/switch";
-import { api } from "@/trpc/react";
-import { useEditProfile } from "@/hooks/use-editprofile";
+import EducationTab from "@/components/blocks/education-tab";
 
 interface EditProfileModalProps {
   user: User & {
     experiences: Experience[];
+    educations: Education[];
     contacts: Contact[];
   };
   session: Session | null;
@@ -111,6 +112,9 @@ export default function EditProfileModal({
               )}
               {activeTab === "Experience" && (
                 <ExperienceTab id={session.user.id} data={user.experiences} />
+              )}
+              {activeTab === "Education" && (
+                <EducationTab id={session.user.id} data={user.educations} />
               )}
               {activeTab === "Contact" && <ContactTab data={user.contacts} />}
             </div>

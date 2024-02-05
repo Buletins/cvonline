@@ -23,6 +23,11 @@ export const userRouter = createTRPCRouter({
               createdAt: "desc",
             },
           },
+          educations: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
           status: true,
           contacts: true,
         },

@@ -1,6 +1,7 @@
+import { redirect } from "next/navigation";
+
 import { getServerAuthSession } from "@/server/auth";
 import SignIn from "./_components/sign-in";
-import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -9,7 +10,7 @@ export default async function Home() {
 
   return (
     <>
-      <SignIn session={session} />
+      <SignIn />
     </>
   );
 }

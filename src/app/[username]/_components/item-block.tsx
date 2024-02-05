@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+
+import { cn } from "@/lib/utils";
 
 interface ItemBlockProps {
   title: string;
@@ -13,7 +14,7 @@ export default function ItemBlock({
   tighter,
 }: ItemBlockProps) {
   return (
-    <div className="flex flex-col items-start gap-1">
+    <div className="flex flex-col items-start gap-2">
       <h2 className="text-sm font-medium tracking-tight">{title}</h2>
       <div className={cn("flex w-full flex-col", tighter ? "gap-1" : "gap-4")}>
         {children}

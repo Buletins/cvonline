@@ -1,13 +1,15 @@
-import { api } from "@/trpc/server";
+import { Metadata } from "next";
+
 import { getServerAuthSession } from "@/server/auth";
+import { api } from "@/trpc/server";
 import ItemBlock from "./_components/item-block";
 import ContactItem from "./_components/contact-item";
 import Header from "./_components/header";
 import PublishBar from "./_components/publish-bar";
 import ExperienceItem from "./_components/experience-item";
 import ResumonBadge from "../_components/resumon-badge";
-import { Metadata } from "next";
 import EditProfileModal from "./_components/edit-profile-modal";
+import EducationItem from "./_components/education-item";
 
 type Props = {
   params: { username: string };
@@ -67,8 +69,8 @@ export default async function ProfilePage({
           )}
           {user.educationActive && (
             <ItemBlock title="Opleidingen">
-              {user.experiences.map((item) => (
-                <ExperienceItem key={item.id} data={item} />
+              {user.educations.map((item) => (
+                <EducationItem key={item.id} data={item} />
               ))}
             </ItemBlock>
           )}
