@@ -33,10 +33,9 @@ import {
 import StatusForm from "@/components/forms/status-form";
 
 interface HeaderProps {
-  user: User & {
-    status: Status;
+  user: Pick<User, "location" | "id" | "website" | "name" | "title"> & {
+    status: Status | null;
   };
-  status: Status;
   session: Session | null;
 }
 
@@ -45,7 +44,7 @@ export default function Header({ user, session }: HeaderProps) {
   const router = useRouter();
   const editProfile = useEditProfile();
 
-  const { status, location, name, title } = user;
+  const { status, id, location, website, name, title } = user;
 
   const deleteStatus = api.status.delete.useMutation({
     onSuccess: () => {
@@ -87,7 +86,7 @@ export default function Header({ user, session }: HeaderProps) {
             className="h-full w-full rounded-full"
           />
           <CameraIcon className="h-6 w-6 text-muted-foreground" />
-          {session?.user.id === user.id ? (
+          {session?.user.id === id ? (
             <TooltipProvider delayDuration={100}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -138,7 +137,7 @@ export default function Header({ user, session }: HeaderProps) {
               <CopyIcon className="h-4 w-4" />
               Email
             </Button>
-            {user.website && (
+            {website && (
               <Button
                 variant="link"
                 className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
@@ -154,7 +153,7 @@ export default function Header({ user, session }: HeaderProps) {
         <StatusForm setIsStatusOpen={setIsStatusOpen} />
       ) : status ? (
         <div className="group relative flex flex-col gap-2 rounded-lg bg-accent p-3">
-          {session?.user.id === user.id && (
+          {session?.user.id === id && (
             <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100">
               <Button
                 onClick={() => deleteStatus.mutate()}

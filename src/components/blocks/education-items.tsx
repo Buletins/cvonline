@@ -33,7 +33,7 @@ function EducationItem({ id, item }: EducationProps) {
 
   const router = useRouter();
 
-  const deleteExperience = api.experience.delete.useMutation({
+  const deleteEducation = api.education.delete.useMutation({
     onSuccess: () => {
       router.refresh();
     },
@@ -42,7 +42,7 @@ function EducationItem({ id, item }: EducationProps) {
     },
   });
 
-  const isLoading = deleteExperience.isLoading;
+  const isLoading = deleteEducation.isLoading;
 
   return (
     <div
@@ -79,7 +79,7 @@ function EducationItem({ id, item }: EducationProps) {
             <div className="flex items-center gap-4">
               <Button
                 onClick={() =>
-                  deleteExperience.mutate({
+                  deleteEducation.mutate({
                     userId: id,
                     id: item.id,
                   })

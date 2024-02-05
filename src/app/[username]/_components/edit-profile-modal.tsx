@@ -107,9 +107,7 @@ export default function EditProfileModal({
           </div>
           <div className="relative flex-grow">
             <div className="h-full overflow-hidden px-4 py-8">
-              {activeTab === "General" && (
-                <GeneralForm user={user} session={session} />
-              )}
+              {activeTab === "General" && <GeneralForm user={user} />}
               {activeTab === "Experience" && (
                 <ExperienceTab id={session.user.id} data={user.experiences} />
               )}

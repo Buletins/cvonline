@@ -8,12 +8,12 @@ import { api } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
-interface WorkExperienceProps {
+interface WorkExperienceItemProps {
   id: string;
   data: Experience[];
 }
 
-export default function WorkExperience({ id, data }: WorkExperienceProps) {
+export default function WorkExperience({ id, data }: WorkExperienceItemProps) {
   return (
     <div className="flex flex-col gap-4 overflow-hidden">
       {data.map((item) => (
