@@ -14,6 +14,9 @@ import PrintCv from "./_components/print-cv";
 import LanguageItem from "./_components/language-item";
 import InternshipItem from "./_components/internship-item";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { CopyIcon, ExternalLinkIcon } from "lucide-react";
+import FloatingHeader from "./_components/floating-header";
 
 type Props = {
   params: { username: string };
@@ -56,6 +59,7 @@ export default async function ProfilePage({
   return (
     <>
       <PrintCv user={user} />
+      <FloatingHeader user={user} />
       <div className="flex flex-col gap-8 px-4 py-20">
         {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
@@ -64,19 +68,6 @@ export default async function ProfilePage({
             <p className="text-sm leading-tight tracking-tight text-muted-foreground">
               {user.description}
             </p>
-          </ItemBlock>
-          <ItemBlock title="Vaaridgheden">
-            <div className="flex flex-wrap gap-2">
-              {user.skills.map((item) => (
-                <Badge
-                  key={item.id}
-                  variant="secondary"
-                  className="font-normal"
-                >
-                  {item.title}
-                </Badge>
-              ))}
-            </div>
           </ItemBlock>
           {user.experienceActive && user.experiences.length > 0 && (
             <ItemBlock title="Werkervaring">
@@ -99,6 +90,19 @@ export default async function ProfilePage({
               ))}
             </ItemBlock>
           )}
+          <ItemBlock title="Vaaridgheden">
+            <div className="flex flex-wrap gap-2">
+              {user.skills.map((item) => (
+                <Badge
+                  key={item.id}
+                  variant="secondary"
+                  className="font-normal"
+                >
+                  {item.title}
+                </Badge>
+              ))}
+            </div>
+          </ItemBlock>
           <ItemBlock title="Talen">
             {user.languages.map((item) => (
               <LanguageItem

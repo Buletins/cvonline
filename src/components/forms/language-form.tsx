@@ -75,7 +75,7 @@ export default function LanguageForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  Type
+                  Taal
                 </FormLabel>
 
                 <FormControl>
@@ -95,7 +95,7 @@ export default function LanguageForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  Value
+                  Niveau
                 </FormLabel>
                 <FormControl>
                   <Slider

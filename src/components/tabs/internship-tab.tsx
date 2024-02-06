@@ -12,6 +12,7 @@ export default function InternshipTab({ data }: InternshipTabProps) {
   return (
     <BlockWrapper
       title="Stage"
+      description="Vermeld hier je stages. Begin met de meest recente/relevante stage. Geef uitleg over je dagelijkse taken en verantwoordelijkheden."
       adding={<InternshipForm />}
       listing={<WorkExperience data={data} />}
     />

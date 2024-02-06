@@ -48,7 +48,9 @@ export default function Header({ user, session }: HeaderProps) {
       <div className="flex items-center gap-4">
         <div className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full border">
           <img
-            src="https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_1.0/v1/1/profilePhotos/Cwit4zi9q1ajFhwHZndNri4v0rm1/bafdf7ed-cab3-4033-bcf7-160cd837bc72.jpg?_a=ATO2BAA0"
+            src={
+              "https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_1.0/v1/1/profilePhotos/Cwit4zi9q1ajFhwHZndNri4v0rm1/bafdf7ed-cab3-4033-bcf7-160cd837bc72.jpg?_a=ATO2BAA0"
+            }
             alt=""
             className="h-full w-full rounded-full"
           />
@@ -106,9 +108,9 @@ export default function Header({ user, session }: HeaderProps) {
                 className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
                 asChild
               >
-                <a href="">
+                <a href={website} target="_blank">
                   <ExternalLinkIcon className="h-4 w-4" />
-                  Visit Website
+                  Website
                 </a>
               </Button>
             )}

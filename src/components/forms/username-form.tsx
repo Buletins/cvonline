@@ -35,6 +35,7 @@ export default function UsernameForm({
   isPublished,
   username,
 }: UsernameFormProps) {
+  const [isChanging, setIsChanging] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
@@ -89,12 +90,13 @@ export default function UsernameForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-xs text-muted-foreground">
-                Username
+                Gebruiksnaam
               </FormLabel>
               <FormControl>
                 <div className="relative flex items-center gap-2">
                   <Input
                     {...field}
+                    disabled={!isChanging}
                     placeholder="Front-End Developer"
                     className="bg-accent focus-visible:ring-0"
                   />
@@ -116,9 +118,25 @@ export default function UsernameForm({
             />
             <Label htmlFor="published-status">Airplane Mode</Label>
           </div>
-          <Button type="submit" size="sm">
-            Change username
-          </Button>
+          {isChanging ? (
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={() => setIsChanging(false)}
+                type="button"
+                size="sm"
+                variant="outline"
+              >
+                Annuleer
+              </Button>
+              <Button type="submit" size="sm">
+                Ga verder
+              </Button>
+            </div>
+          ) : (
+            <Button onClick={() => setIsChanging(true)} type="button" size="sm">
+              Wijzig
+            </Button>
+          )}
         </div>
       </form>
     </Form>

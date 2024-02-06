@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 export const educationRouter = createTRPCRouter({
   create: protectedProcedure
@@ -26,12 +23,11 @@ export const educationRouter = createTRPCRouter({
       });
     }),
 
-  get: protectedProcedure
-    .query(({ ctx}) => {
-      return ctx.db.experience.findMany({
-        where: { id: ctx.session.user.id },
-      });
-    }),
+  get: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.experience.findMany({
+      where: { id: ctx.session.user.id },
+    });
+  }),
 
   delete: protectedProcedure
     .input(

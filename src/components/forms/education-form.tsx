@@ -29,7 +29,7 @@ const formSchema = z.object({
   title: z.string().min(2).max(48),
   location: z.string().min(2).max(48),
   school: z.string().min(2).max(48),
-  description: z.string().min(2).max(200),
+  description: z.string().min(2).max(2000),
   fromYear: z.string().min(2).max(48),
   toYear: z.string().min(2).max(48),
 });
@@ -79,7 +79,7 @@ export default function EducationForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  title
+                  Niveau
                 </FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="Front-End Developer" />
@@ -94,7 +94,7 @@ export default function EducationForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  company
+                  Opleidingsinstituut
                 </FormLabel>
                 <FormControl>
                   <Input {...field} placeholder="Front-End Developer" />
@@ -110,7 +110,7 @@ export default function EducationForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-xs text-muted-foreground">
-                Location
+                Locatie
               </FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Front-End Developer" />
@@ -126,7 +126,7 @@ export default function EducationForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  fromYear
+                  Start datum
                 </FormLabel>
                 <Select
                   onValueChange={field.onChange}
@@ -155,7 +155,7 @@ export default function EducationForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  toYear
+                  Einddatum
                 </FormLabel>
                 <Select
                   onValueChange={field.onChange}
@@ -185,7 +185,7 @@ export default function EducationForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-xs text-muted-foreground">
-                description
+                Omschrijving
               </FormLabel>
               <FormControl>
                 <Textarea

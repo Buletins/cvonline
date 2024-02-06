@@ -12,7 +12,7 @@ export const experienceRouter = createTRPCRouter({
         title: z.string().min(2).max(48),
         location: z.string().min(2).max(48),
         company: z.string().min(2).max(48),
-        description: z.string().min(2).max(200),
+        description: z.string().min(2).max(2000),
         fromYear: z.string().min(2).max(48),
         toYear: z.string().min(2).max(48),
       }),

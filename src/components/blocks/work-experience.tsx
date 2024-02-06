@@ -42,7 +42,7 @@ function WorkExperienceItem({ item }: WorkExperienceProps) {
   return (
     <div
       key={item.id}
-      className="relative flex items-end justify-between gap-4 border-b border-border/50 pb-4 last:border-b-0"
+      className="relative flex items-center justify-between gap-4 border-b border-border/50 pb-4 last:border-b-0"
     >
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
@@ -53,7 +53,14 @@ function WorkExperienceItem({ item }: WorkExperienceProps) {
         <div className="flex flex-col gap-2">
           <div className="flex flex-col">
             <div className="font-medium leading-none tracking-tight ">
-              {item.title} at {item.company}
+              {item.title} bij{" "}
+              {item.website ? (
+                <a href="" className="hover:underline">
+                  {item.company}
+                </a>
+              ) : (
+                item.company
+              )}
             </div>
             <div className="flex items-center gap-2">
               <div className="text-xs tracking-tight text-muted-foreground">
@@ -64,9 +71,6 @@ function WorkExperienceItem({ item }: WorkExperienceProps) {
               </div>
             </div>
           </div>
-          <p className="line-clamp-2 w-full max-w-xs break-words text-sm leading-tight tracking-tight">
-            {item.description}
-          </p>
         </div>
       </div>
       <div className="relative flex h-full flex-col items-end justify-between gap-4">

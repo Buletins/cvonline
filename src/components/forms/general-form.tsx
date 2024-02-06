@@ -11,6 +11,7 @@ import { api } from "@/trpc/react";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -107,7 +108,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  Full name
+                  Volledige naam
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -126,7 +127,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  Title
+                  Job functie
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -145,7 +146,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  Location
+                  Huidge locatie
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -158,25 +159,46 @@ export default function GeneralForm({ user }: GeneralFormProps) {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs text-muted-foreground">
-                  Email
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="flex items-center gap-2">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xs text-muted-foreground">
+                    Emailadres
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Front-End Developer"
+                      className="bg-accent focus-visible:ring-0"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xs text-muted-foreground">
+                    Telefoonnummer
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Front-End Developer"
+                      className="bg-accent focus-visible:ring-0"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name="website"
@@ -202,34 +224,22 @@ export default function GeneralForm({ user }: GeneralFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  Description
+                  Profiel
                 </FormLabel>
                 <FormControl>
-                  <div className="relative h-full w-full">
-                    <Textarea
-                      {...field}
-                      rows={8}
-                      placeholder="Front-End Developer"
-                      className="resize-none bg-accent focus-visible:ring-0"
-                    />
-                    <div className="absolute right-2 top-2">
-                      <Button
-                        onClick={() =>
-                          generateDescription.mutate({
-                            prompt:
-                              "Can you write a small description for my resume, i am a front end developer from belgium, please limit it to 200 characters.",
-                          })
-                        }
-                        type="button"
-                        size="sm"
-                        className="px-1 py-0.5 text-xs"
-                      >
-                        Ask AI
-                      </Button>
-                    </div>
-                  </div>
+                  <Textarea
+                    {...field}
+                    rows={8}
+                    placeholder="Front-End Developer"
+                    className="resize-none bg-accent focus-visible:ring-0"
+                  />
                 </FormControl>
                 <FormMessage />
+                <FormDescription>
+                  Korte alinea die boven aan je cv komt te staan. Geef hierin
+                  aan wie je bent, waar je naar op zoek bent, wat je ambities
+                  zijn en waarin je uitblinkt.
+                </FormDescription>
               </FormItem>
             )}
           />

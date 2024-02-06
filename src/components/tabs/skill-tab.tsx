@@ -12,6 +12,7 @@ export default function SkillTab({ data }: SkillTabProps) {
     <BlockWrapper
       hideButton
       title="Vaardigheden"
+      description="Vermeld hier je vaardigheden. Leg hierbij de nadruk op vaardigheden die belangrijk zijn voor de functie waar je op solliciteert."
       listing={<SkillBlock data={data} />}
     />
   );

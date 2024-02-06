@@ -24,7 +24,7 @@ import ExperienceTab from "@/components/tabs/experience-tab";
 import ContactTab from "@/components/tabs/contact-tab";
 import EducationTab from "@/components/tabs/education-tab";
 import LanguageTab from "@/components/tabs/language-tab";
-import { CircleUserIcon } from "lucide-react";
+import { CircleUserIcon, LogOutIcon } from "lucide-react";
 import InternshipTab from "@/components/tabs/internship-tab";
 import SkillTab from "@/components/tabs/skill-tab";
 
@@ -97,25 +97,28 @@ export default function EditProfileModal({
 
   return (
     <Dialog open={editProfile.status} onOpenChange={() => editProfile.close()}>
-      <DialogContent className="h-full max-h-[760px] min-h-[760px] w-full max-w-3xl bg-background/50 p-0 backdrop-blur-lg">
+      <DialogContent className="h-full max-h-[760px] min-h-[760px] w-full max-w-3xl overflow-hidden bg-background/50 p-0 backdrop-blur-lg">
         <div className="flex w-full overflow-hidden">
-          <div className="w-60 border-r py-6">
-            <div className="flex items-center gap-2 px-6">
+          <div className="flex h-full w-60 shrink-0 flex-col gap-3 border-r pt-6">
+            <div className="flex items-center gap-2 px-4">
               <CircleUserIcon className="h-6 w-6" />
               <div className="text-lg">{session.user.name}</div>
             </div>
-            <div className="flex flex-col py-3">
+            <div className="relative flex h-full flex-col">
               {links.map((item, index) => (
                 <div
                   key={index}
                   className={cn(
-                    "flex items-center justify-between px-6",
-                    activeTab === item.label && "bg-[#333] text-primary",
+                    "flex items-center justify-between px-4",
+                    activeTab === item.label && "bg-[#333]",
                   )}
                 >
                   <button
                     onClick={() => setActiveTab(item.label)}
-                    className="w-full py-1.5 text-left text-sm text-muted-foreground"
+                    className={cn(
+                      "w-full py-2 text-left text-sm text-muted-foreground",
+                      activeTab === item.label && "text-primary",
+                    )}
                   >
                     {item.label}
                   </button>
@@ -127,6 +130,12 @@ export default function EditProfileModal({
                   )}
                 </div>
               ))}
+              <div className="mt-auto flex items-center justify-between border-t px-4 py-2 hover:bg-[#333]">
+                <button className="flex w-full items-center gap-2 text-left text-sm text-muted-foreground ">
+                  <LogOutIcon className="h-4 w-4" />
+                  Log uit
+                </button>
+              </div>
             </div>
           </div>
           <div className="relative flex-grow">
@@ -144,11 +153,6 @@ export default function EditProfileModal({
               )}
               {activeTab === "Talen" && <LanguageTab data={user.languages} />}
               {activeTab === "Contact" && <ContactTab data={user.contacts} />}
-            </div>
-            <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-lg">
-              <Button size="sm" className="ml-auto">
-                Done
-              </Button>
             </div>
           </div>
         </div>

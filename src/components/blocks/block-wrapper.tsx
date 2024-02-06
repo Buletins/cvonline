@@ -5,6 +5,7 @@ import { ScrollArea } from "../ui/scroll-area";
 
 interface BlockWrapperProps {
   title: string;
+  description?: string;
   adding?: React.ReactNode;
   listing: React.ReactNode;
   hideButton?: boolean;
@@ -12,6 +13,7 @@ interface BlockWrapperProps {
 
 export default function BlockWrapper({
   title,
+  description,
   adding,
   listing,
   hideButton,
@@ -21,7 +23,12 @@ export default function BlockWrapper({
   return (
     <div className="flex h-full flex-col gap-8 pb-8">
       <div className="flex items-center justify-between border-b pb-4">
-        <div className="">{title}</div>
+        <div className="flex flex-col">
+          <div className="tracking-tight">{title}</div>
+          <p className="text-sm/tight tracking-tight text-muted-foreground">
+            {description}
+          </p>
+        </div>
         {!hideButton && (
           <Button
             onClick={() => setIsAdding(!isAdding)}
