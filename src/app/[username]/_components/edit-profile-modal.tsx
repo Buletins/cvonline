@@ -46,8 +46,6 @@ export default function EditProfileModal({
 }: EditProfileModalProps) {
   const [activeTab, setActiveTab] = useState<string>("Algemeen");
 
-  console.log(user.languages);
-
   const router = useRouter();
   const editProfile = useEditProfile();
 
@@ -55,18 +53,17 @@ export default function EditProfileModal({
 
   const links = [
     { label: "Algemeen", toggable: false },
-    { label: "Vaardigheden", toggable: true, status: user.experienceActive },
+    { label: "Vaardigheden", toggable: false },
     { label: "Werkervaring", toggable: true, status: user.experienceActive },
     { label: "Stage", toggable: true, status: user.internshipActive },
     { label: "Opleiding", toggable: true, status: user.educationActive },
-    { label: "Talen", toggable: true, status: user.educationActive },
+    { label: "Talen", toggable: false },
     { label: "Contact", toggable: false },
   ];
 
   const toggleExperiences = api.experience.toggle.useMutation({
-    onSuccess: (data) => {
+    onSuccess: () => {
       router.refresh();
-      console.log(data);
     },
   });
 

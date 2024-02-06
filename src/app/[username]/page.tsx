@@ -60,11 +60,7 @@ export default async function ProfilePage({
         {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
-          <ItemBlock
-            title={`Over ${
-              session?.user.name && session.user.name.match(/^\S+/)?.[0]
-            }`}
-          >
+          <ItemBlock title={`Over ${session?.user?.name?.match(/^\S+/)?.[0]}`}>
             <p className="text-sm leading-tight tracking-tight text-muted-foreground">
               {user.description}
             </p>
@@ -72,7 +68,11 @@ export default async function ProfilePage({
           <ItemBlock title="Vaaridgheden">
             <div className="flex flex-wrap gap-2">
               {user.skills.map((item) => (
-                <Badge variant="secondary" className="font-normal">
+                <Badge
+                  key={item.id}
+                  variant="secondary"
+                  className="font-normal"
+                >
                   {item.title}
                 </Badge>
               ))}

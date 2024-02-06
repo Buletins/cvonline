@@ -4,14 +4,7 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import type { User } from "@prisma/client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { usePrintCv } from "@/hooks/use-printcv";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";

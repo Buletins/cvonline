@@ -1,6 +1,6 @@
 "use client";
 
-import type { Education, Internship } from "@prisma/client";
+import type { Internship } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Session } from "next-auth";

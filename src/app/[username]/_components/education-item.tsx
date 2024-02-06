@@ -3,7 +3,7 @@
 import type { Education } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
