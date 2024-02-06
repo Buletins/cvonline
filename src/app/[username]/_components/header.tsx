@@ -117,7 +117,7 @@ export default function Header({ user, session }: HeaderProps) {
       </div>
       {isStatusOpen ? (
         <StatusForm setIsStatusOpen={setIsStatusOpen} />
-      ) : status ? (
+      ) : status?.title ? (
         <div className="group relative flex flex-col gap-2 rounded-lg bg-accent p-3">
           {session?.user.id === id && (
             <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100">

@@ -28,7 +28,12 @@ export const userRouter = createTRPCRouter({
               createdAt: "desc",
             },
           },
-          internship: {
+          internships: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+          skills: {
             orderBy: {
               createdAt: "desc",
             },
@@ -113,5 +118,9 @@ export const userRouter = createTRPCRouter({
     } else {
       return "you can now see this secret message!";
     }
+  }),
+
+  getUsersCount: publicProcedure.query(({ ctx, input }) => {
+    return ctx.db.user.count();
   }),
 });

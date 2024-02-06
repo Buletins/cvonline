@@ -54,12 +54,12 @@ export const internshipRouter = createTRPCRouter({
         id: ctx.session.user.id,
       },
       include: {
-        internship: true,
+        internships: true,
       },
     });
 
     if (user) {
-      if (user.internship.length > 0) {
+      if (user.internships.length > 0) {
         const updatedValue = !user.internshipActive;
 
         return ctx.db.user.update({

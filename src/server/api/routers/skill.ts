@@ -6,16 +6,15 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
-export const contactRouter = createTRPCRouter({
+export const skillRouter = createTRPCRouter({
   create: protectedProcedure
     .input(
       z.object({
-        contactType: z.string().max(50),
-        contactValue: z.string().max(50),
+        title: z.string().max(50),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.contact.create({
+      return ctx.db.skill.create({
         data: {
           user: {
             connect: {
@@ -27,17 +26,16 @@ export const contactRouter = createTRPCRouter({
       });
     }),
 
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(
       z.object({
-        userId: z.string().min(1),
         id: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.contact.delete({
         where: {
-          userId: input.userId,
+          userId: ctx.session.user.id,
           id: input.id,
         },
       });

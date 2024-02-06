@@ -5,16 +5,15 @@ import ExperienceForm from "../forms/experience-form";
 import WorkExperience from "../blocks/work-experience";
 
 interface ExperienceTabProps {
-  id: string;
   data: Experience[];
 }
 
-export default function ExperienceTab({ id, data }: ExperienceTabProps) {
+export default function ExperienceTab({ data }: ExperienceTabProps) {
   return (
     <BlockWrapper
       title="Werkervaring"
       adding={<ExperienceForm />}
-      listing={<WorkExperience id={id} data={data} />}
+      listing={<WorkExperience data={data} />}
     />
   );
 }

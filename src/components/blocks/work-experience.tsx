@@ -9,35 +9,30 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
 interface WorkExperienceItemProps {
-  id: string;
   data: Experience[];
 }
 
-export default function WorkExperience({ id, data }: WorkExperienceItemProps) {
+export default function WorkExperience({ data }: WorkExperienceItemProps) {
   return (
     <div className="flex flex-col gap-4 overflow-hidden">
       {data.map((item) => (
-        <WorkExperienceItem key={item.id} id={id} item={item} />
+        <WorkExperienceItem key={item.id} item={item} />
       ))}
     </div>
   );
 }
 
 interface WorkExperienceProps {
-  id: string;
   item: Experience;
 }
 
-function WorkExperienceItem({ id, item }: WorkExperienceProps) {
+function WorkExperienceItem({ item }: WorkExperienceProps) {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
 
   const router = useRouter();
 
   const deleteExperience = api.experience.delete.useMutation({
     onSuccess: () => {
-      router.refresh();
-    },
-    onSettled: () => {
       router.refresh();
     },
   });

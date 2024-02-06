@@ -14,6 +14,7 @@ import PrintCv from "./_components/print-cv";
 import { Progress } from "@/components/ui/progress";
 import LanguageItem from "./_components/language-item";
 import InternshipItem from "./_components/internship-item";
+import { Badge } from "@/components/ui/badge";
 
 type Props = {
   params: { username: string };
@@ -62,28 +63,37 @@ export default async function ProfilePage({
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
           <ItemBlock
             title={`Over ${
-              session?.user.name ? session.user.name.match(/^\S+/)?.[0] : ""
-            }:`}
+              session?.user.name && session.user.name.match(/^\S+/)?.[0]
+            }`}
           >
             <p className="text-sm leading-tight tracking-tight text-muted-foreground">
               {user.description}
             </p>
           </ItemBlock>
-          {user.experienceActive && (
+          <ItemBlock title="Vaaridgheden">
+            <div className="flex flex-wrap gap-2">
+              {user.skills.map((item) => (
+                <Badge variant="secondary" className="font-normal">
+                  {item.title}
+                </Badge>
+              ))}
+            </div>
+          </ItemBlock>
+          {user.experienceActive && user.experiences.length > 0 && (
             <ItemBlock title="Werkervaring">
               {user.experiences.map((item) => (
                 <ExperienceItem key={item.id} data={item} session={session} />
               ))}
             </ItemBlock>
           )}
-          {user.internshipActive && user.internship.length > 0 && (
+          {user.internshipActive && user.internships.length > 0 && (
             <ItemBlock title="Stage">
-              {user.internship.map((item) => (
+              {user.internships.map((item) => (
                 <InternshipItem key={item.id} data={item} session={session} />
               ))}
             </ItemBlock>
           )}
-          {user.educationActive && (
+          {user.educationActive && user.educations.length > 0 && (
             <ItemBlock title="Opleidingen">
               {user.educations.map((item) => (
                 <EducationItem key={item.id} data={item} session={session} />

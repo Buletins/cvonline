@@ -3,7 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Session } from "next-auth";
-import type { Contact, Education, Experience, User } from "@prisma/client";
+import type {
+  Contact,
+  Education,
+  Experience,
+  Internship,
+  Skill,
+  User,
+} from "@prisma/client";
 
 import { api } from "@/trpc/react";
 import { cn } from "@/lib/utils";
@@ -18,12 +25,15 @@ import EducationTab from "@/components/tabs/education-tab";
 import LanguageTab from "@/components/tabs/language-tab";
 import { CircleUserIcon } from "lucide-react";
 import InternshipTab from "@/components/tabs/internship-tab";
+import SkillTab from "@/components/tabs/skill-tab";
 
 interface EditProfileModalProps {
   user: User & {
     experiences: Experience[];
     educations: Education[];
     contacts: Contact[];
+    internships: Internship[];
+    skills: Skill[];
   };
   session: Session | null;
 }
@@ -121,11 +131,12 @@ export default function EditProfileModal({
           <div className="relative flex-grow">
             <div className="h-full overflow-hidden px-4 py-8">
               {activeTab === "Algemeen" && <GeneralForm user={user} />}
+              {activeTab === "Vaardigheden" && <SkillTab data={user.skills} />}
               {activeTab === "Werkervaring" && (
-                <ExperienceTab id={session.user.id} data={user.experiences} />
+                <ExperienceTab data={user.experiences} />
               )}
               {activeTab === "Stage" && (
-                <InternshipTab id={session.user.id} data={user.experiences} />
+                <InternshipTab id={session.user.id} data={user.internships} />
               )}
               {activeTab === "Opleiding" && (
                 <EducationTab id={session.user.id} data={user.educations} />
