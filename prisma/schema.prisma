@@ -64,7 +64,7 @@ model User {
     experienceActive Boolean      @default(false)
     educations       Education[]
     educationActive  Boolean      @default(false)
-    languags         Language[]
+    languages         Language[]
     languagActive    Boolean      @default(false)
     internships      Internship[]
     internshipActive Boolean      @default(false)

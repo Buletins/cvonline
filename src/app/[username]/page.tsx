@@ -11,7 +11,6 @@ import ResumonBadge from "../_components/resumon-badge";
 import EditProfileModal from "./_components/edit-profile-modal";
 import EducationItem from "./_components/education-item";
 import PrintCv from "./_components/print-cv";
-import { Progress } from "@/components/ui/progress";
 import LanguageItem from "./_components/language-item";
 import InternshipItem from "./_components/internship-item";
 import { Badge } from "@/components/ui/badge";
@@ -57,7 +56,7 @@ export default async function ProfilePage({
   return (
     <>
       <PrintCv user={user} />
-      <div className="flex flex-col gap-8 py-20">
+      <div className="flex flex-col gap-8 px-4 py-20">
         {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
@@ -100,8 +99,14 @@ export default async function ProfilePage({
               ))}
             </ItemBlock>
           )}
-          <ItemBlock title="Talen" tighter>
-            <LanguageItem />
+          <ItemBlock title="Talen">
+            {user.languages.map((item) => (
+              <LanguageItem
+                key={item.id}
+                title={item.title}
+                value={item.value}
+              />
+            ))}
           </ItemBlock>
           <ItemBlock title="Contact" tighter>
             <ContactItem label="Email" href={user.email} />

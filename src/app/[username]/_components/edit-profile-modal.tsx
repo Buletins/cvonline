@@ -8,6 +8,7 @@ import type {
   Education,
   Experience,
   Internship,
+  Language,
   Skill,
   User,
 } from "@prisma/client";
@@ -34,6 +35,7 @@ interface EditProfileModalProps {
     contacts: Contact[];
     internships: Internship[];
     skills: Skill[];
+    languages: Language[];
   };
   session: Session | null;
 }
@@ -43,6 +45,8 @@ export default function EditProfileModal({
   session,
 }: EditProfileModalProps) {
   const [activeTab, setActiveTab] = useState<string>("Algemeen");
+
+  console.log(user.languages);
 
   const router = useRouter();
   const editProfile = useEditProfile();
@@ -141,7 +145,7 @@ export default function EditProfileModal({
               {activeTab === "Opleiding" && (
                 <EducationTab id={session.user.id} data={user.educations} />
               )}
-              {activeTab === "Talen" && <LanguageTab data={user.contacts} />}
+              {activeTab === "Talen" && <LanguageTab data={user.languages} />}
               {activeTab === "Contact" && <ContactTab data={user.contacts} />}
             </div>
             <div className="absolute inset-x-0 bottom-0 border-t px-6 py-4 backdrop-blur-lg">

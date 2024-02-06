@@ -1,19 +1,19 @@
 import BlockWrapper from "../blocks/block-wrapper";
 
-import type { Contact } from "@prisma/client";
-import ContactBlock from "../blocks/contact-block";
-import ContactForm from "../forms/contact-form";
+import type { Language } from "@prisma/client";
+import LanguageBlock from "../blocks/language-block";
+import LanguageForm from "../forms/language-form";
 
-interface ContactTabProps {
-  data: Contact[];
+interface LanguageTabProps {
+  data: Language[];
 }
 
-export default function LanguageTab({ data }: ContactTabProps) {
+export default function LanguageTab({ data }: LanguageTabProps) {
   return (
     <BlockWrapper
       title="Talen"
-      adding={<ContactForm />}
-      listing={<ContactBlock data={data} />}
+      adding={<LanguageForm />}
+      listing={<LanguageBlock data={data} />}
     />
   );
 }
