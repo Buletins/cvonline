@@ -16,6 +16,8 @@ import ExperienceTab from "@/components/tabs/experience-tab";
 import ContactTab from "@/components/tabs/contact-tab";
 import EducationTab from "@/components/tabs/education-tab";
 import LanguageTab from "@/components/tabs/language-tab";
+import { CircleUserIcon } from "lucide-react";
+import InternshipTab from "@/components/tabs/internship-tab";
 
 interface EditProfileModalProps {
   user: User & {
@@ -39,7 +41,9 @@ export default function EditProfileModal({
 
   const links = [
     { label: "Algemeen", toggable: false },
+    { label: "Vaardigheden", toggable: true, status: user.experienceActive },
     { label: "Werkervaring", toggable: true, status: user.experienceActive },
+    { label: "Stage", toggable: true, status: user.internshipActive },
     { label: "Opleiding", toggable: true, status: user.educationActive },
     { label: "Talen", toggable: true, status: user.educationActive },
     { label: "Contact", toggable: false },
@@ -50,13 +54,15 @@ export default function EditProfileModal({
       router.refresh();
       console.log(data);
     },
-    onError: (data) => {
-      console.log("first");
-      console.log(data);
-    },
   });
 
   const toggleEducation = api.education.toggle.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
+
+  const toggleInternship = api.internship.toggle.useMutation({
     onSuccess: () => {
       router.refresh();
     },
@@ -70,6 +76,9 @@ export default function EditProfileModal({
       case "Opleiding":
         toggleEducation.mutate();
         break;
+      case "Stage":
+        toggleInternship.mutate();
+        break;
       default:
         break;
     }
@@ -80,7 +89,10 @@ export default function EditProfileModal({
       <DialogContent className="h-full max-h-[760px] min-h-[760px] w-full max-w-3xl bg-background/50 p-0 backdrop-blur-lg">
         <div className="flex w-full overflow-hidden">
           <div className="w-60 border-r py-6">
-            <div className="px-6 text-lg">{session.user.name}</div>
+            <div className="flex items-center gap-2 px-6">
+              <CircleUserIcon className="h-6 w-6" />
+              <div className="text-lg">{session.user.name}</div>
+            </div>
             <div className="flex flex-col py-3">
               {links.map((item, index) => (
                 <div
@@ -111,6 +123,9 @@ export default function EditProfileModal({
               {activeTab === "Algemeen" && <GeneralForm user={user} />}
               {activeTab === "Werkervaring" && (
                 <ExperienceTab id={session.user.id} data={user.experiences} />
+              )}
+              {activeTab === "Stage" && (
+                <InternshipTab id={session.user.id} data={user.experiences} />
               )}
               {activeTab === "Opleiding" && (
                 <EducationTab id={session.user.id} data={user.educations} />

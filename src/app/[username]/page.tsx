@@ -13,6 +13,7 @@ import EducationItem from "./_components/education-item";
 import PrintCv from "./_components/print-cv";
 import { Progress } from "@/components/ui/progress";
 import LanguageItem from "./_components/language-item";
+import InternshipItem from "./_components/internship-item";
 
 type Props = {
   params: { username: string };
@@ -72,6 +73,13 @@ export default async function ProfilePage({
             <ItemBlock title="Werkervaring">
               {user.experiences.map((item) => (
                 <ExperienceItem key={item.id} data={item} session={session} />
+              ))}
+            </ItemBlock>
+          )}
+          {user.internshipActive && user.internship.length > 0 && (
+            <ItemBlock title="Stage">
+              {user.internship.map((item) => (
+                <InternshipItem key={item.id} data={item} session={session} />
               ))}
             </ItemBlock>
           )}

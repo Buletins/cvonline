@@ -75,17 +75,13 @@ export default function Header({ user, session }: HeaderProps) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-          ) : (
+          ) : status ? (
             <div className="absolute bottom-0 right-0">
-              <div className="flex items-center justify-center rounded-full bg-transparent px-1.5 py-1">
-                {status ? (
-                  <div className="text-xs">{status.emoji}</div>
-                ) : (
-                  <SmilePlusIcon className="h-3 w-3 text-muted-foreground" />
-                )}
+              <div className="flex items-center justify-center rounded-full bg-transparent px-1.5 py-1 backdrop-blur-lg">
+                <div className="text-xs">{status.emoji}</div>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
         <div className="flex w-full flex-col gap-1">
           <div className="flex flex-col">

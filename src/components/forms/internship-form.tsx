@@ -24,7 +24,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z.string().min(2).max(48),
@@ -35,13 +34,10 @@ const formSchema = z.object({
   toYear: z.string().min(2).max(48),
 });
 
-export default function ExperienceForm() {
-  const router = useRouter();
-
-  const createExperience = api.experience.create.useMutation({
+export default function InternshipForm() {
+  const createInternship = api.internship.create.useMutation({
     onSuccess: () => {
       toast.success("Changes have been saved.");
-      router.refresh();
     },
   });
 
@@ -58,7 +54,7 @@ export default function ExperienceForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createExperience.mutate({
+    createInternship.mutate({
       ...values,
     });
   }
