@@ -140,10 +140,10 @@ export default function EditProfileModal({
                 <ExperienceTab data={user.experiences} />
               )}
               {activeTab === "Stage" && (
-                <InternshipTab id={session.user.id} data={user.internships} />
+                <InternshipTab data={user.internships} />
               )}
               {activeTab === "Opleiding" && (
-                <EducationTab id={session.user.id} data={user.educations} />
+                <EducationTab data={user.educations} />
               )}
               {activeTab === "Talen" && <LanguageTab data={user.languages} />}
               {activeTab === "Contact" && <ContactTab data={user.contacts} />}
