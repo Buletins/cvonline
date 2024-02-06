@@ -49,7 +49,7 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
   });
 
   return (
-    <div className="group flex items-start gap-8">
+    <div className="group relative flex flex-col items-start gap-4 md:flex-row md:gap-8">
       <div className="w-24 shrink-0 text-xs/none text-muted-foreground">
         {fromYear} - {toYear}
       </div>
@@ -66,7 +66,7 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
           {description}
         </p>
       </div>
-      <div className="ml-auto flex items-center gap-2">
+      <div className="absolute right-0 ml-auto flex items-center gap-2 md:relative">
         <Dialog>
           <DialogTrigger asChild>
             <Button

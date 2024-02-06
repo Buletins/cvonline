@@ -1,5 +1,6 @@
 "use client";
 
+import { CircleUserIcon, Loader2, LogOutIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Session } from "next-auth";
@@ -17,14 +18,12 @@ import { api } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { useEditProfile } from "@/hooks/use-editprofile";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import GeneralForm from "@/components/forms/general-form";
 import ExperienceTab from "@/components/tabs/experience-tab";
 import ContactTab from "@/components/tabs/contact-tab";
 import EducationTab from "@/components/tabs/education-tab";
 import LanguageTab from "@/components/tabs/language-tab";
-import { CircleUserIcon, LogOutIcon } from "lucide-react";
 import InternshipTab from "@/components/tabs/internship-tab";
 import SkillTab from "@/components/tabs/skill-tab";
 
@@ -45,6 +44,10 @@ export default function EditProfileModal({
   session,
 }: EditProfileModalProps) {
   const [activeTab, setActiveTab] = useState<string>("Algemeen");
+  const [switchLoading, setSwitchLoading] = useState<boolean>(false);
+  const [loadingSwitchType, setLoadingSwitchType] = useState<string | null>(
+    null,
+  );
 
   const router = useRouter();
   const editProfile = useEditProfile();
@@ -65,11 +68,25 @@ export default function EditProfileModal({
     onSuccess: () => {
       router.refresh();
     },
+    onMutate: () => {
+      setSwitchLoading(true);
+    },
+    onSettled: () => {
+      setSwitchLoading(false);
+      setLoadingSwitchType(null);
+    },
   });
 
   const toggleEducation = api.education.toggle.useMutation({
     onSuccess: () => {
       router.refresh();
+    },
+    onMutate: () => {
+      setSwitchLoading(true);
+    },
+    onSettled: () => {
+      setSwitchLoading(false);
+      setLoadingSwitchType(null);
     },
   });
 
@@ -77,18 +94,28 @@ export default function EditProfileModal({
     onSuccess: () => {
       router.refresh();
     },
+    onMutate: () => {
+      setSwitchLoading(true);
+    },
+    onSettled: () => {
+      setSwitchLoading(false);
+      setLoadingSwitchType(null);
+    },
   });
 
   const toggleSwitch = (label: string) => {
     switch (label) {
       case "Werkervaring":
         toggleExperiences.mutate();
+        setLoadingSwitchType("Werkervaring");
         break;
       case "Opleiding":
         toggleEducation.mutate();
+        setLoadingSwitchType("Opleiding");
         break;
       case "Stage":
         toggleInternship.mutate();
+        setLoadingSwitchType("Stage");
         break;
       default:
         break;
@@ -97,9 +124,9 @@ export default function EditProfileModal({
 
   return (
     <Dialog open={editProfile.status} onOpenChange={() => editProfile.close()}>
-      <DialogContent className="h-full max-h-[760px] min-h-[760px] w-full max-w-3xl overflow-hidden bg-background/50 p-0 backdrop-blur-lg">
-        <div className="flex w-full overflow-hidden">
-          <div className="flex h-full w-60 shrink-0 flex-col gap-3 border-r pt-6">
+      <DialogContent className="h-full min-h-svh w-full max-w-3xl overflow-hidden bg-background/50 p-0 backdrop-blur-lg md:max-h-[760px] md:min-h-[760px]">
+        <div className="flex w-full flex-col overflow-hidden md:flex-row">
+          <div className="flex h-full shrink-0 flex-col gap-3 border-r pt-6 md:w-60">
             <div className="flex items-center gap-2 px-4">
               <CircleUserIcon className="h-6 w-6" />
               <div className="text-lg">{session.user.name}</div>
@@ -123,10 +150,16 @@ export default function EditProfileModal({
                     {item.label}
                   </button>
                   {item.toggable && (
-                    <Switch
-                      checked={item.status}
-                      onCheckedChange={() => toggleSwitch(item.label)}
-                    />
+                    <div className="flex items-center gap-2">
+                      {loadingSwitchType === item.label && (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      )}
+                      <Switch
+                        disabled={loadingSwitchType === item.label}
+                        checked={item.status}
+                        onCheckedChange={() => toggleSwitch(item.label)}
+                      />
+                    </div>
                   )}
                 </div>
               ))}
