@@ -9,26 +9,24 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
 interface EducationItemsProps {
-  id: string;
   data: Education[];
 }
 
-export default function EducationItems({ id, data }: EducationItemsProps) {
+export default function EducationItems({ data }: EducationItemsProps) {
   return (
     <div className="flex flex-col gap-4 overflow-hidden">
       {data.map((item) => (
-        <EducationItem key={item.id} id={id} item={item} />
+        <EducationItem key={item.id} item={item} />
       ))}
     </div>
   );
 }
 
 interface EducationProps {
-  id: string;
   item: Education;
 }
 
-function EducationItem({ id, item }: EducationProps) {
+function EducationItem({ item }: EducationProps) {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
 
   const router = useRouter();
@@ -80,7 +78,6 @@ function EducationItem({ id, item }: EducationProps) {
               <Button
                 onClick={() =>
                   deleteEducation.mutate({
-                    userId: id,
                     id: item.id,
                   })
                 }
