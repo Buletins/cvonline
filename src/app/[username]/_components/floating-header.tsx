@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import type { User } from "@prisma/client";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface FloatingHeaderProps {
   user: User;
@@ -14,9 +14,17 @@ interface FloatingHeaderProps {
 export default function FloatingHeader({ user }: FloatingHeaderProps) {
   const [showHeader, setFloatingHeader] = useState(false);
 
+  const { username, name, title, location } = user;
+  const pathname = usePathname();
+
+  const scrollHeight = pathname.includes(username) ? 176 : 1000;
+  const buttonText = pathname.includes(username)
+    ? "Ga terug naar boven"
+    : "Dit wil ik ook";
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 176) {
+      if (window.scrollY > scrollHeight) {
         setFloatingHeader(true);
       } else {
         setFloatingHeader(false);
@@ -50,23 +58,23 @@ export default function FloatingHeader({ user }: FloatingHeaderProps) {
               src={
                 "https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_1.0/v1/1/profilePhotos/Cwit4zi9q1ajFhwHZndNri4v0rm1/bafdf7ed-cab3-4033-bcf7-160cd837bc72.jpg?_a=ATO2BAA0"
               }
-              alt={user.name!}
+              alt={name!}
               className="h-full w-full rounded-full"
             />
           </div>
           <div className="flex w-full flex-col gap-1">
             <div className="flex flex-col">
               <h1 className="text-sm/none font-semibold tracking-tight">
-                {user.name}
+                {name}
               </h1>
               <p className="text-xs tracking-tight text-muted-foreground">
-                {user.title}, in {user.location}
+                {title}, in {location}
               </p>
             </div>
           </div>
         </div>
         <Button onClick={scrollToTop} size="sm">
-          Terug naar boven
+          {buttonText}
         </Button>
       </div>
     </div>

@@ -24,6 +24,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   title: z.string().min(2).max(48),
@@ -66,6 +67,15 @@ export default function InternshipForm() {
     (_, index) => currentYear - index,
   );
 
+  const {
+    title: titleError,
+    company: companyError,
+    location: locationError,
+    fromYear: fromYearError,
+    toYear: toYearError,
+    description: descriptionError,
+  } = form.formState.errors;
+
   return (
     <Form {...form}>
       <form
@@ -79,12 +89,17 @@ export default function InternshipForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  title
+                  Functietitel
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Front-End Developer" />
+                  <Input
+                    {...field}
+                    placeholder="Front-End Developer"
+                    className={cn(
+                      titleError && "border-destructive bg-destructive/50",
+                    )}
+                  />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -94,12 +109,17 @@ export default function InternshipForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  company
+                  Bedrijf
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Front-End Developer" />
+                  <Input
+                    {...field}
+                    placeholder="Front-End Developer"
+                    className={cn(
+                      companyError && "border-destructive bg-destructive/50",
+                    )}
+                  />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -110,12 +130,17 @@ export default function InternshipForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-xs text-muted-foreground">
-                Location
+                Plaats
               </FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Front-End Developer" />
+                <Input
+                  {...field}
+                  placeholder="Front-End Developer"
+                  className={cn(
+                    locationError && "border-destructive bg-destructive/50",
+                  )}
+                />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -126,15 +151,19 @@ export default function InternshipForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  fromYear
+                  Start datum
                 </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select " />
+                    <SelectTrigger
+                      className={cn(
+                        fromYearError && "border-destructive bg-destructive/50",
+                      )}
+                    >
+                      <SelectValue placeholder="Selecteer een jaar" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -145,7 +174,6 @@ export default function InternshipForm() {
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -155,15 +183,19 @@ export default function InternshipForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-xs text-muted-foreground">
-                  toYear
+                  Einddatum
                 </FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
+                    <SelectTrigger
+                      className={cn(
+                        toYearError && "border-destructive bg-destructive/50",
+                      )}
+                    >
+                      <SelectValue placeholder="Selecteer een jaar" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -174,7 +206,6 @@ export default function InternshipForm() {
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -185,16 +216,18 @@ export default function InternshipForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-xs text-muted-foreground">
-                description
+                Omschrijving
               </FormLabel>
               <FormControl>
                 <Textarea
                   {...field}
                   rows={8}
                   placeholder="Front-End Developer"
+                  className={cn(
+                    descriptionError && "border-destructive bg-destructive/50",
+                  )}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />

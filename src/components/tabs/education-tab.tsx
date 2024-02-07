@@ -12,6 +12,7 @@ export default function EducationTab({ data }: EducationTabProps) {
   return (
     <BlockWrapper
       title="Opleidingen"
+      description="Vermeld je opleiding(en), benoem eventueel cursussen, projecten of prestaties. Begin met je laatste opleiding."
       adding={<EducationForm />}
       listing={<EducationItems data={data} />}
     />

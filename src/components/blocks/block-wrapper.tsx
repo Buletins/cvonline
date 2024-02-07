@@ -22,7 +22,7 @@ export default function BlockWrapper({
 
   return (
     <div className="flex h-full flex-col gap-8 pb-8">
-      <div className="flex items-center justify-between border-b pb-4">
+      <div className="flex items-center justify-between gap-8 border-b pb-4">
         <div className="flex flex-col">
           <div className="tracking-tight">{title}</div>
           <p className="text-sm/tight tracking-tight text-muted-foreground">
@@ -35,7 +35,7 @@ export default function BlockWrapper({
             size="sm"
             variant="secondary"
           >
-            {isAdding ? "Canel" : "Add new"}
+            {isAdding ? "Annuleer" : "Nieuw"}
           </Button>
         )}
       </div>

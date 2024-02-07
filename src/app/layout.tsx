@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={cn("flex min-h-svh flex-col", GeistSans.className)}>
         <TRPCReactProvider>
-          <div className="">{children}</div>
+          <>{children}</>
           <Toaster />
         </TRPCReactProvider>
       </body>

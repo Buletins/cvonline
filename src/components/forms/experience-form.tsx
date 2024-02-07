@@ -12,7 +12,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -25,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   title: z.string().min(2).max(48),
@@ -70,6 +70,15 @@ export default function ExperienceForm() {
     (_, index) => currentYear - index,
   );
 
+  const {
+    title: titleError,
+    company: companyError,
+    location: locationError,
+    fromYear: fromYearError,
+    toYear: toYearError,
+    description: descriptionError,
+  } = form.formState.errors;
+
   return (
     <Form {...form}>
       <form
@@ -86,9 +95,14 @@ export default function ExperienceForm() {
                   Functietitel
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Front-End Developer" />
+                  <Input
+                    {...field}
+                    placeholder="Front-End Developer"
+                    className={cn(
+                      titleError && "border-destructive bg-destructive/50",
+                    )}
+                  />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -101,9 +115,14 @@ export default function ExperienceForm() {
                   Bedrijf
                 </FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="Front-End Developer" />
+                  <Input
+                    {...field}
+                    placeholder="Front-End Developer"
+                    className={cn(
+                      companyError && "border-destructive bg-destructive/50",
+                    )}
+                  />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -117,9 +136,14 @@ export default function ExperienceForm() {
                 Plaats
               </FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Front-End Developer" />
+                <Input
+                  {...field}
+                  placeholder="Front-End Developer"
+                  className={cn(
+                    locationError && "border-destructive bg-destructive/50",
+                  )}
+                />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -137,8 +161,12 @@ export default function ExperienceForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select " />
+                    <SelectTrigger
+                      className={cn(
+                        fromYearError && "border-destructive bg-destructive/50",
+                      )}
+                    >
+                      <SelectValue placeholder="Selecteer een jaar" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -149,7 +177,6 @@ export default function ExperienceForm() {
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -166,8 +193,12 @@ export default function ExperienceForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select" />
+                    <SelectTrigger
+                      className={cn(
+                        toYearError && "border-destructive bg-destructive/50",
+                      )}
+                    >
+                      <SelectValue placeholder="Selecteer een jaar" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -178,7 +209,6 @@ export default function ExperienceForm() {
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -196,14 +226,16 @@ export default function ExperienceForm() {
                   {...field}
                   rows={8}
                   placeholder="Front-End Developer"
+                  className={cn(
+                    descriptionError && "border-destructive bg-destructive/50",
+                  )}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
         <Button type="submit" size="sm" className="ml-auto">
-          Done
+          Toevoegen
         </Button>
       </form>
     </Form>

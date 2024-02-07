@@ -49,11 +49,9 @@ export default async function ProfilePage({
   params: { username: string };
 }) {
   const session = await getServerAuthSession();
-
   const user = await api.user.getByUsernam.query({ username: params.username });
 
   if (!session && !user?.isPusblished) return "This profile is not published";
-
   if (!user ?? !user?.email) return "use not found";
 
   return (
@@ -64,7 +62,7 @@ export default async function ProfilePage({
         {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
-          <ItemBlock title={`Over ${session?.user?.name?.match(/^\S+/)?.[0]}`}>
+          <ItemBlock title={`Over ${user?.name?.match(/^\S+/)?.[0]}`}>
             <p className="text-sm leading-tight tracking-tight text-muted-foreground">
               {user.description}
             </p>
