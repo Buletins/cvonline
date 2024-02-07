@@ -19,11 +19,18 @@ export default function UserMenu() {
     <div className="absolute right-0 top-0 flex items-center gap-2">
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button size="sm" variant="outline" className="px-1">
+          <Button
+            size="sm"
+            variant="outline"
+            className="bg-white/15 px-1 backdrop-blur-lg"
+          >
             <MoreHorizontalIcon className="h-3 w-3" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent
+          align="end"
+          className="bg-white/15 backdrop-blur-lg"
+        >
           <DropdownMenuItem
             onClick={() => editProfile.open()}
             className="gap-2"

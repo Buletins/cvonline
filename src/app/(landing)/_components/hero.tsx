@@ -6,7 +6,7 @@ export default async function Hero() {
   const users = await api.user.getUsersCount.query();
 
   return (
-    <div className="mx-auto flex min-h-[calc(100vh-96px)] max-w-7xl flex-1 flex-col items-center justify-center gap-16 py-20">
+    <div className="mx-auto flex min-h-screen max-w-7xl flex-1 flex-col items-center justify-center gap-16 px-4 py-20">
       <div className="flex max-w-3xl flex-col items-center gap-4">
         <h1 className="text-center text-7xl/none font-medium tracking-tight">
           Cv maken als{" "}

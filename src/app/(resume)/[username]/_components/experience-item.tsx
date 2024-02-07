@@ -66,7 +66,7 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
         </p>
       </div>
       <div className="absolute right-0 ml-auto flex items-center gap-2 md:relative">
-        <Dialog>
+        <Dialog modal={false}>
           <DialogTrigger asChild>
             <Button
               size="sm"
@@ -76,7 +76,7 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
               Meer
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="bg-white/15 backdrop-blur-lg">
             <DialogHeader>
               <DialogTitle>
                 {title} bij {company}.

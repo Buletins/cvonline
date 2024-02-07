@@ -19,7 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={cn("flex min-h-svh flex-col", GeistSans.className)}>
+      <body
+        className={cn(
+          "relative flex min-h-dvh flex-col bg-black [background-image:radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(0,24,51,.6),rgba(25,8,43,.3));]",
+          GeistSans.className,
+        )}
+      >
         <TRPCReactProvider>
           <>{children}</>
           <Toaster />

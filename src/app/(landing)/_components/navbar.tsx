@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-
 import SignIn from "@/app/_components/sign-in";
 
 export default function Navbar() {
   return (
-    <div className="fixed inset-x-0 top-0 mx-auto w-full max-w-7xl px-4 py-8">
+    <header className="absolute inset-x-0 top-0 z-[100] mx-auto w-full max-w-7xl px-4 py-6">
       <div className="flex items-center justify-between">
         <Link
           href="/"
@@ -14,8 +13,9 @@ export default function Navbar() {
         >
           Resumon
         </Link>
+
         <SignIn />
       </div>
-    </div>
+    </header>
   );
 }

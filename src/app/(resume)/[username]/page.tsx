@@ -122,7 +122,6 @@ export default async function ProfilePage({
           </ItemBlock>
         </main>
       </div>
-      <ResumonBadge />
       {session && <EditProfileModal user={user} session={session} />}
     </>
   );
