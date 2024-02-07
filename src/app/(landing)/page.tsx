@@ -35,8 +35,8 @@ export default async function Home() {
             </div>
             <div className="flex flex-col">
               <h1 className="text-4xl font-semibold tracking-tight">
-                Slechts 2% van de cv's komt door de eerste ronde. Zorg ervoor
-                dat jij in die top 2% zit.
+                Slechts 2% van de cvs komt door de eerste ronde. Zorg ervoor dat
+                jij in die top 2% zit.
               </h1>
             </div>
             <p className="max-w-lg text-lg/snug tracking-tight text-muted-foreground">

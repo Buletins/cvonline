@@ -7,7 +7,6 @@ import ContactItem from "./_components/contact-item";
 import Header from "./_components/header";
 import PublishBar from "./_components/publish-bar";
 import ExperienceItem from "./_components/experience-item";
-import ResumonBadge from "../_components/resumon-badge";
 import EditProfileModal from "./_components/edit-profile-modal";
 import EducationItem from "./_components/education-item";
 import PrintCv from "./_components/print-cv";
