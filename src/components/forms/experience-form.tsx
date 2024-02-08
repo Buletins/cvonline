@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { draftToMarkdown } from "markdown-draft-js";
 
 import { api } from "@/trpc/react";
 import {
@@ -25,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Richtexteditor from "../richtexteditor";
 
 const formSchema = z.object({
   title: z.string().min(2).max(48),
@@ -222,14 +224,18 @@ export default function ExperienceForm() {
                 Omschrijving
               </FormLabel>
               <FormControl>
-                <Textarea
+                <Richtexteditor
+                  onChange={(draft) => field.onChange(draftToMarkdown(draft))}
+                  ref={field.ref}
+                />
+                {/* <Textarea
                   {...field}
                   rows={8}
                   placeholder="Front-End Developer"
                   className={cn(
                     descriptionError && "border-destructive bg-destructive/50",
                   )}
-                />
+                /> */}
               </FormControl>
             </FormItem>
           )}

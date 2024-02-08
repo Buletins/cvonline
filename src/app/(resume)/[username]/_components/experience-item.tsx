@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import Markdown from "@/components/markdown";
 
 interface ExperienceItemProps {
   data: Experience;
@@ -61,9 +62,7 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
             {location}
           </div>
         </div>
-        <p className="tracking-snug line-clamp-3 w-full break-words text-sm leading-tight text-muted-foreground">
-          {description}
-        </p>
+        <Markdown>{description}</Markdown>
       </div>
       <div className="absolute right-0 ml-auto flex items-center gap-2 md:relative">
         <Dialog modal={false}>
@@ -84,7 +83,9 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
                   {fromYear} - {toYear}
                 </div>
               </DialogTitle>
-              <DialogDescription>{description}</DialogDescription>
+              <DialogDescription>
+                <Markdown>{description}</Markdown>
+              </DialogDescription>
             </DialogHeader>
           </DialogContent>
         </Dialog>
