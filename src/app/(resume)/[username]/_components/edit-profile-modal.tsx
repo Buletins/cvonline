@@ -3,6 +3,7 @@
 import { CircleUserIcon, Loader2, LogOutIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 import type { Session } from "next-auth";
 import type {
   Contact,
@@ -143,7 +144,7 @@ export default function EditProfileModal({
                   <button
                     onClick={() => setActiveTab(item.label)}
                     className={cn(
-                      "w-full py-2 text-left text-sm text-muted-foreground",
+                      "w-full py-2 text-left text-sm text-muted-foreground focus-visible:outline-none",
                       activeTab === item.label && "text-primary",
                     )}
                   >
@@ -164,7 +165,12 @@ export default function EditProfileModal({
                 </div>
               ))}
               <div className="mt-auto flex items-center justify-between border-t px-4 py-2 hover:bg-[#333]">
-                <button className="flex w-full items-center gap-2 text-left text-sm text-muted-foreground ">
+                <button
+                  onClick={async () => {
+                    await signOut({ callbackUrl: "/" });
+                  }}
+                  className="flex w-full items-center gap-2 text-left text-sm text-muted-foreground "
+                >
                   <LogOutIcon className="h-4 w-4" />
                   Log uit
                 </button>

@@ -44,8 +44,8 @@ export default function UserMenu() {
           </DropdownMenuItem> */}
           <DropdownMenuItem
             onClick={async () => {
-              toast.success("You have been logged out.");
               await signOut({ callbackUrl: "/" });
+              toast.success("You have been logged out.");
             }}
             className="gap-2"
           >
