@@ -16,11 +16,11 @@ export default forwardRef<Object, EditorProps>(
     return (
       <Editor
         editorClassName={cn(
-          "border rounded-md px-3 min-h-[150px] cursor-text ring-offset-background focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+          "flex w-full resize-none rounded-md border border-input bg-accent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
           props.editorClassName,
         )}
         toolbar={{
-          options: ["inline", "list", "link", "history"],
+          options: ["inline", "list"],
           inline: {
             options: ["bold", "italic", "underline"],
           },

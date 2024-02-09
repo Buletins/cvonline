@@ -7,10 +7,26 @@ interface MarkdownProps {
 export default function Markdown({ children }: MarkdownProps) {
   return (
     <ReactMarkdown
-      className="tracking-snug w-full text-sm leading-tight text-muted-foreground"
+      className="flex w-full flex-col gap-4"
       components={{
-        b: (props) => <span className="text-red-600" {...props} />,
-        ul: (props) => <ul className="list-inside list-disc" {...props} />,
+        p: (props) => (
+          <p
+            className="text-sm leading-tight tracking-tight text-muted-foreground"
+            {...props}
+          />
+        ),
+        ul: (props) => (
+          <ul
+            className="flex list-inside list-disc flex-col gap-2"
+            {...props}
+          />
+        ),
+        li: (props) => (
+          <li
+            className="text-sm leading-tight tracking-tight text-muted-foreground"
+            {...props}
+          />
+        ),
         a: (props) => (
           <a className="text-green-500 underline" target="_blank" {...props} />
         ),

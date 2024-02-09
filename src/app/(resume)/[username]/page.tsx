@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CopyIcon, ExternalLinkIcon } from "lucide-react";
 import FloatingHeader from "./_components/floating-header";
+import ProfileIntro from "./_components/profile-intro";
 
 type Props = {
   params: { username: string };
@@ -51,7 +52,7 @@ export default async function ProfilePage({
   const user = await api.user.getByUsernam.query({ username: params.username });
 
   if (!session && !user?.isPusblished) return "This profile is not published";
-  if (!user ?? !user?.email) return "use not found";
+  if (!user ?? !user?.email ?? !user?.name) return "use not found";
 
   return (
     <>
@@ -61,11 +62,7 @@ export default async function ProfilePage({
         {session?.user.id === user.id && !user.isPusblished && <PublishBar />}
         <Header user={user} session={session} />
         <main className="mx-auto flex w-full max-w-lg flex-col gap-8">
-          <ItemBlock title={`Over ${user?.name?.match(/^\S+/)?.[0]}`}>
-            <p className="text-sm leading-tight tracking-tight text-muted-foreground">
-              {user.description}
-            </p>
-          </ItemBlock>
+          <ProfileIntro name={user.name} description={user.description} />
           {user.experienceActive && user.experiences.length > 0 && (
             <ItemBlock title="Werkervaring">
               {user.experiences.map((item) => (
@@ -93,7 +90,7 @@ export default async function ProfilePage({
                 <Badge
                   key={item.id}
                   variant="secondary"
-                  className="font-normal"
+                  className="bg-white/15 font-normal backdrop-blur-lg hover:bg-white/15"
                 >
                   {item.title}
                 </Badge>
@@ -120,6 +117,11 @@ export default async function ProfilePage({
             ))}
           </ItemBlock>
         </main>
+        <footer className="flex w-full items-center justify-center">
+          <p className="text-xs leading-tight tracking-tight text-muted-foreground">
+            Create your own resume for free.
+          </p>
+        </footer>
       </div>
       {session && <EditProfileModal user={user} session={session} />}
     </>
