@@ -22,9 +22,13 @@ import {
 } from "@/components/ui/tooltip";
 import StatusForm from "@/components/forms/status-form";
 import UserMenu from "./user-menu";
+import { toast } from "sonner";
 
 interface HeaderProps {
-  user: Pick<User, "location" | "id" | "website" | "name" | "title"> & {
+  user: Pick<
+    User,
+    "location" | "id" | "website" | "name" | "title" | "email"
+  > & {
     status: Status | null;
   };
   session: Session | null;
@@ -34,7 +38,7 @@ export default function Header({ user, session }: HeaderProps) {
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
   const router = useRouter();
 
-  const { status, id, location, website, name, title } = user;
+  const { status, id, location, website, name, title, email } = user;
 
   const deleteStatus = api.status.delete.useMutation({
     onSuccess: () => {
@@ -91,17 +95,23 @@ export default function Header({ user, session }: HeaderProps) {
               {name}
             </h1>
             <p className="text-sm tracking-tight text-muted-foreground">
-              {title}, in {location}
+              {title && title} {location && `, in ${location}`}
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <Button
-              variant="link"
-              className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
-            >
-              <CopyIcon className="h-4 w-4" />
-              Email
-            </Button>
+            {email && (
+              <Button
+                onClick={() => {
+                  toast.success("Emailadres gekopierd.");
+                  navigator.clipboard.writeText(email);
+                }}
+                variant="link"
+                className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
+              >
+                <CopyIcon className="h-4 w-4" />
+                Email
+              </Button>
+            )}
             {website && (
               <Button
                 variant="link"
@@ -120,7 +130,7 @@ export default function Header({ user, session }: HeaderProps) {
       {isStatusOpen ? (
         <StatusForm setIsStatusOpen={setIsStatusOpen} />
       ) : status?.title ? (
-        <div className="group relative flex flex-col gap-2 rounded-lg bg-accent p-3">
+        <div className="group relative flex flex-col gap-2 rounded-lg bg-white/15 p-3">
           {session?.user.id === id && (
             <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100">
               <Button

@@ -6,6 +6,9 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { draftToMarkdown } from "markdown-draft-js";
 
+import { useEditor, EditorContent, type Editor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+
 import { api } from "@/trpc/react";
 import {
   Form,
@@ -27,6 +30,15 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Richtexteditor from "../richtexteditor";
+import { Toggle } from "../ui/toggle";
+import {
+  BoldIcon,
+  ItalicIcon,
+  ListIcon,
+  ListOrderedIcon,
+  StrikethroughIcon,
+} from "lucide-react";
+import { Separator } from "../ui/separator";
 
 const formSchema = z.object({
   title: z.string().min(2).max(48),
@@ -60,9 +72,10 @@ export default function ExperienceForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    createExperience.mutate({
-      ...values,
-    });
+    console.log(values);
+    // createExperience.mutate({
+    //   ...values,
+    // });
   }
 
   const currentYear = new Date().getFullYear();
@@ -80,6 +93,30 @@ export default function ExperienceForm() {
     toYear: toYearError,
     description: descriptionError,
   } = form.formState.errors;
+
+  const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class:
+          "min-h-[80px] max-h-[180px] w-full rounded-md rounded-br-none rounded-bl-none border border-input bg-transparent px-3 py-2 border-b-0 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto",
+      },
+    },
+    extensions: [
+      StarterKit.configure({
+        orderedList: {
+          HTMLAttributes: {
+            class: "list-decimal pl-4",
+          },
+        },
+        bulletList: {
+          HTMLAttributes: {
+            class: "list-disc pl-4",
+          },
+        },
+      }),
+    ],
+    content: "",
+  });
 
   return (
     <Form {...form}>
@@ -224,9 +261,12 @@ export default function ExperienceForm() {
                 Omschrijving
               </FormLabel>
               <FormControl>
-                <Richtexteditor
-                  onChange={(draft) => field.onChange(draftToMarkdown(draft))}
+                <EditorContent
+                  name={field.name}
+                  value={field.value}
+                  onChange={(value) => console.log(value)}
                   ref={field.ref}
+                  editor={editor}
                 />
                 {/* <Textarea
                   {...field}
@@ -247,3 +287,79 @@ export default function ExperienceForm() {
     </Form>
   );
 }
+
+const RichTextEditor = () => {
+  const editor = useEditor({
+    editorProps: {
+      attributes: {
+        class:
+          "min-h-[80px] max-h-[180px] w-full rounded-md rounded-br-none rounded-bl-none border border-input bg-transparent px-3 py-2 border-b-0 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto",
+      },
+    },
+    extensions: [
+      StarterKit.configure({
+        orderedList: {
+          HTMLAttributes: {
+            class: "list-decimal pl-4",
+          },
+        },
+        bulletList: {
+          HTMLAttributes: {
+            class: "list-disc pl-4",
+          },
+        },
+      }),
+    ],
+    content: "",
+  });
+
+  return (
+    <div className="flex flex-col">
+      <EditorContent editor={editor} />
+      {editor ? <RichTextEditorToolbar editor={editor} /> : null}
+    </div>
+  );
+};
+
+const RichTextEditorToolbar = ({ editor }: { editor: Editor }) => {
+  return (
+    <div className="flex flex-row items-center gap-1 rounded-bl-md rounded-br-md border border-input bg-transparent p-1">
+      <Toggle
+        size="sm"
+        pressed={editor.isActive("bold")}
+        onPressedChange={() => editor.chain().focus().toggleBold().run()}
+      >
+        <BoldIcon className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive("italic")}
+        onPressedChange={() => editor.chain().focus().toggleItalic().run()}
+      >
+        <ItalicIcon className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive("strike")}
+        onPressedChange={() => editor.chain().focus().toggleStrike().run()}
+      >
+        <StrikethroughIcon className="h-4 w-4" />
+      </Toggle>
+      <Separator orientation="vertical" className="h-8 w-[1px]" />
+      <Toggle
+        size="sm"
+        pressed={editor.isActive("bulletList")}
+        onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
+      >
+        <ListIcon className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive("orderedList")}
+        onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
+      >
+        <ListOrderedIcon className="h-4 w-4" />
+      </Toggle>
+    </div>
+  );
+};

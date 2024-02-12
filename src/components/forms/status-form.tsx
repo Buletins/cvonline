@@ -65,7 +65,7 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col items-end gap-2 rounded-lg bg-accent p-3"
+        className="flex flex-col items-end gap-2 rounded-lg bg-white/15 p-3 backdrop-blur-lg"
       >
         <div className="flex w-full items-start gap-2">
           <FormField
@@ -102,7 +102,7 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
                     <Textarea
                       {...field}
                       placeholder="I'm feeling..."
-                      className="resize-none p-0 focus-visible:ring-0"
+                      className="resize-none border-transparent bg-transparent p-0 shadow-none focus-visible:ring-0"
                     />
                   </div>
                 </FormControl>
@@ -120,7 +120,7 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
           >
             Cancel
           </Button>
-          <Button type="submit" size="sm" variant="outline">
+          <Button type="submit" size="sm" variant="blurred">
             Set Status
           </Button>
         </div>

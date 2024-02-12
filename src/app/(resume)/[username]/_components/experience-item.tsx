@@ -53,8 +53,8 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
       <div className="w-24 shrink-0 text-xs/none text-muted-foreground">
         {fromYear} - {toYear}
       </div>
-      <div className="flex flex-col gap-2">
-        <div className="flex items-start gap-4">
+      <div className="flex w-full flex-col gap-2">
+        <div className="flex items-start justify-between gap-4">
           <div className="flex flex-col">
             <div className="text-base/none font-medium tracking-tight">
               {title} bij {company}

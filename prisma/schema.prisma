@@ -50,6 +50,7 @@ model User {
     emailVerified DateTime?
     image         String?
     isPusblished  Boolean   @default(false)
+    isCreated     Boolean   @default(false)
 
     profileImage String?
     title        String?
@@ -64,7 +65,7 @@ model User {
     experienceActive Boolean      @default(false)
     educations       Education[]
     educationActive  Boolean      @default(false)
-    languages         Language[]
+    languages        Language[]
     languagActive    Boolean      @default(false)
     internships      Internship[]
     internshipActive Boolean      @default(false)

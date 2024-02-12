@@ -6,6 +6,8 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 
+const usernamePattern = /^[a-zA-Z0-9]+$/;
+
 export const userRouter = createTRPCRouter({
   getByUsernam: publicProcedure
     .input(z.object({ username: z.string().min(1) }))
@@ -53,7 +55,6 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(2).max(50).optional(),
-        username: z.string().min(2).max(50).optional(),
         name: z.string().min(2).max(50),
         title: z.string().min(2).max(50),
         location: z.string().min(2).max(50),
@@ -76,13 +77,20 @@ export const userRouter = createTRPCRouter({
   changeUsername: protectedProcedure
     .input(
       z.object({
-        username: z.string().min(2).max(50).optional(),
+        username: z.string().min(7).max(50).regex(usernamePattern).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const existingUser = await ctx.db.user.findUnique({
+      const newUsername = input.username
+        ? input.username.replace(/\s+/g, "-")
+        : undefined;
+
+      const existingUser = await ctx.db.user.findFirst({
         where: {
-          username: input.username,
+          username: {
+            equals: newUsername,
+            mode: "insensitive",
+          },
         },
       });
 
@@ -97,7 +105,8 @@ export const userRouter = createTRPCRouter({
           id: ctx.session.user.id,
         },
         data: {
-          username: input.username,
+          username: newUsername,
+          isCreated: true,
         },
       });
     }),

@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import UsernameForm from "./username-form";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2).max(48),
@@ -44,10 +45,12 @@ interface GeneralFormProps {
     | "profileImage"
     | "description"
     | "isPusblished"
+    | "isCreated"
   >;
 }
 
 export default function GeneralForm({ user }: GeneralFormProps) {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const router = useRouter();
 
   const {
@@ -60,6 +63,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
     title,
     website,
     description,
+    isCreated,
   } = user;
 
   const updateUser = api.user.update.useMutation({
@@ -96,7 +100,11 @@ export default function GeneralForm({ user }: GeneralFormProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <UsernameForm isPublished={isPusblished} username={username} />
+      <UsernameForm
+        isPublished={isPusblished}
+        username={username}
+        isCreated={isCreated}
+      />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -113,8 +121,9 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                 <FormControl>
                   <Input
                     {...field}
+                    disabled={!isCreated || !isEditing}
                     placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
+                    className="focus-visible:ring-0"
                   />
                 </FormControl>
                 <FormMessage />
@@ -132,8 +141,9 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                 <FormControl>
                   <Input
                     {...field}
+                    disabled={!isCreated || !isEditing}
                     placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
+                    className="focus-visible:ring-0"
                   />
                 </FormControl>
                 <FormMessage />
@@ -151,8 +161,9 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                 <FormControl>
                   <Input
                     {...field}
+                    disabled={!isCreated || !isEditing}
                     placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
+                    className="focus-visible:ring-0"
                   />
                 </FormControl>
                 <FormMessage />
@@ -171,8 +182,9 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={!isCreated || !isEditing}
                       placeholder="Front-End Developer"
-                      className="bg-accent focus-visible:ring-0"
+                      className="focus-visible:ring-0"
                     />
                   </FormControl>
                   <FormMessage />
@@ -190,8 +202,9 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                   <FormControl>
                     <Input
                       {...field}
+                      disabled={!isCreated || !isEditing}
                       placeholder="Front-End Developer"
-                      className="bg-accent focus-visible:ring-0"
+                      className="focus-visible:ring-0"
                     />
                   </FormControl>
                   <FormMessage />
@@ -210,8 +223,9 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                 <FormControl>
                   <Input
                     {...field}
+                    disabled={!isCreated || !isEditing}
                     placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
+                    className="focus-visible:ring-0"
                   />
                 </FormControl>
                 <FormMessage />
@@ -229,9 +243,10 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                 <FormControl>
                   <Textarea
                     {...field}
+                    disabled={!isCreated || !isEditing}
                     rows={8}
                     placeholder="Front-End Developer"
-                    className="resize-none bg-accent focus-visible:ring-0"
+                    className="resize-none focus-visible:ring-0"
                   />
                 </FormControl>
                 <FormMessage />
@@ -243,9 +258,30 @@ export default function GeneralForm({ user }: GeneralFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit" size="sm" className="ml-auto">
-            Done
-          </Button>
+          {isEditing ? (
+            <div className="ml-auto flex items-center gap-2">
+              <Button
+                onClick={() => setIsEditing(false)}
+                type="button"
+                size="sm"
+                variant="outline"
+              >
+                Annuleer
+              </Button>
+              <Button type="submit" size="sm">
+                Bewerk
+              </Button>
+            </div>
+          ) : (
+            <Button
+              onClick={() => setIsEditing(true)}
+              type="button"
+              size="sm"
+              className="ml-auto"
+            >
+              Wijzig
+            </Button>
+          )}
         </form>
       </Form>
     </div>

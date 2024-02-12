@@ -38,6 +38,10 @@ import EducationTab from "@/components/tabs/education-tab";
 import LanguageTab from "@/components/tabs/language-tab";
 import InternshipTab from "@/components/tabs/internship-tab";
 import SkillTab from "@/components/tabs/skill-tab";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import LetterItem from "./letter-item";
+import { toast } from "sonner";
 
 interface EditProfileModalProps {
   user: User & {
@@ -137,9 +141,12 @@ export default function EditProfileModal({
 
   return (
     <Dialog open={editProfile.status} onOpenChange={() => editProfile.close()}>
-      <DialogContent className="h-full min-h-svh w-full max-w-3xl overflow-hidden bg-background/50 p-0 backdrop-blur-lg md:max-h-[760px] md:min-h-[760px]">
+      <DialogContent
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        className="h-full min-h-svh w-full max-w-3xl overflow-hidden bg-background/50 p-0 backdrop-blur-lg md:max-h-[760px] md:min-h-[760px]"
+      >
         <div className="flex w-full flex-col overflow-hidden md:flex-row">
-          <div className="flex flex-col gap-3 border-r px-4 py-6">
+          <div className="flex flex-col items-center gap-3 border-r px-4 py-6">
             <TooltipProvider delayDuration={150}>
               <Tooltip>
                 <TooltipTrigger
@@ -178,7 +185,7 @@ export default function EditProfileModal({
                   }}
                   className="mt-auto text-muted-foreground hover:text-primary"
                 >
-                  <LogOutIcon className="h-6 w-6" />
+                  <LogOutIcon className="h-4 w-4" />
                 </TooltipTrigger>
                 <TooltipContent side="right" className="px-3 py-1">
                   <p>Log uit</p>
@@ -186,24 +193,32 @@ export default function EditProfileModal({
               </Tooltip>
             </TooltipProvider>
           </div>
-          {activeMenu === "Resume" && (
+          {activeMenu === "Letter" && (
             <>
               <div className="flex h-full shrink-0 flex-col gap-3 border-r pt-6 md:w-60">
                 <div className="flex items-center gap-2 px-4">
                   <CircleUserIcon className="h-6 w-6" />
-                  <div className="text-lg">{session.user.name}</div>
+                  <div className="text-lg font-medium tracking-tight">
+                    {session.user.name}
+                  </div>
                 </div>
                 <div className="relative flex h-full flex-col">
                   {links.map((item, index) => (
                     <div
                       key={index}
                       className={cn(
-                        "flex items-center justify-between px-4",
+                        "flex items-center justify-between px-4 hover:bg-[#333]/10",
                         activeTab === item.label && "bg-[#333]/50",
                       )}
                     >
                       <button
-                        onClick={() => setActiveTab(item.label)}
+                        onClick={() => {
+                          if (user.isCreated) {
+                            setActiveTab(item.label);
+                          } else {
+                            toast.error("Wijzig eerst uw gebruiksnaam.");
+                          }
+                        }}
                         className={cn(
                           "w-full py-2 text-left text-sm text-muted-foreground focus-visible:outline-none",
                           activeTab === item.label && "text-primary",
@@ -252,14 +267,31 @@ export default function EditProfileModal({
               </div>
             </>
           )}
-          {activeMenu === "Letter" && (
-            <>
-              <div className="relative flex-grow px-4 py-8">
-                <h2 className="text-xl/none font-semibold tracking-tight">
-                  Nog niet beschikbaar
-                </h2>
+          {activeMenu === "Resume" && (
+            <div className="relative h-full flex-grow px-4 py-6">
+              <div className="flex h-full flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-medium tracking-tight">
+                    Sollicitatiebrieven
+                  </h2>
+                  <Button size="sm" variant="secondary">
+                    Nieuw
+                  </Button>
+                </div>
+                <ScrollArea>
+                  <div className="grid grid-cols-2 gap-2">
+                    <LetterItem />
+                    <LetterItem />
+                    <LetterItem />
+                    <LetterItem />
+                    <LetterItem />
+                    <LetterItem />
+                    <LetterItem />
+                    <LetterItem />
+                  </div>
+                </ScrollArea>
               </div>
-            </>
+            </div>
           )}
         </div>
       </DialogContent>
