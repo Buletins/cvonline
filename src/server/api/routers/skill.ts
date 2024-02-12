@@ -32,8 +32,8 @@ export const skillRouter = createTRPCRouter({
         id: z.string().min(1),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.contact.delete({
+    .mutation(({ ctx, input }) => {
+      return ctx.db.skill.delete({
         where: {
           userId: ctx.session.user.id,
           id: input.id,

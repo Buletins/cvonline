@@ -10,6 +10,11 @@ interface LanguageBlockProps {
 export default function LanguageBlock({ data }: LanguageBlockProps) {
   return (
     <div className="flex flex-col gap-4">
+      {data.length === 0 && (
+        <p className="tracking-tight">
+          Voeg een aantal relevante vaardigeheden toe.
+        </p>
+      )}
       {data.map((item) => (
         <div key={item.id} className="flex flex-col">
           <div className="w-32 shrink-0 font-medium tracking-tight">

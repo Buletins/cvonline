@@ -42,6 +42,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LetterItem from "./letter-item";
 import { toast } from "sonner";
+import { useTab } from "@/hooks/use-tab";
 
 interface EditProfileModalProps {
   user: User & {
@@ -68,6 +69,7 @@ export default function EditProfileModal({
 
   const router = useRouter();
   const editProfile = useEditProfile();
+  const tab = useTab();
 
   if (session?.user.id != user.id) return null;
 
@@ -193,7 +195,7 @@ export default function EditProfileModal({
               </Tooltip>
             </TooltipProvider>
           </div>
-          {activeMenu === "Letter" && (
+          {activeMenu === "Resume" && (
             <>
               <div className="flex h-full shrink-0 flex-col gap-3 border-r pt-6 md:w-60">
                 <div className="flex items-center gap-2 px-4">
@@ -207,21 +209,22 @@ export default function EditProfileModal({
                     <div
                       key={index}
                       className={cn(
-                        "flex items-center justify-between px-4 hover:bg-[#333]/10",
-                        activeTab === item.label && "bg-[#333]/50",
+                        "flex items-center justify-between px-4 transition hover:bg-[#333]/10",
+                        tab.activeTab === item.label &&
+                          "bg-[#333]/50 hover:bg-[#333]/50",
                       )}
                     >
                       <button
                         onClick={() => {
                           if (user.isCreated) {
-                            setActiveTab(item.label);
+                            tab.setActiveTab(item.label);
                           } else {
                             toast.error("Wijzig eerst uw gebruiksnaam.");
                           }
                         }}
                         className={cn(
                           "w-full py-2 text-left text-sm text-muted-foreground focus-visible:outline-none",
-                          activeTab === item.label && "text-primary",
+                          tab.activeTab === item.label && "text-primary",
                         )}
                       >
                         {item.label}
@@ -244,30 +247,30 @@ export default function EditProfileModal({
               </div>
               <div className="relative flex-grow">
                 <div className="h-full overflow-hidden px-4 py-8">
-                  {activeTab === "Algemeen" && <GeneralForm user={user} />}
-                  {activeTab === "Vaardigheden" && (
+                  {tab.activeTab === "Algemeen" && <GeneralForm user={user} />}
+                  {tab.activeTab === "Vaardigheden" && (
                     <SkillTab data={user.skills} />
                   )}
-                  {activeTab === "Werkervaring" && (
+                  {tab.activeTab === "Werkervaring" && (
                     <ExperienceTab data={user.experiences} />
                   )}
-                  {activeTab === "Stage" && (
+                  {tab.activeTab === "Stage" && (
                     <InternshipTab data={user.internships} />
                   )}
-                  {activeTab === "Opleiding" && (
+                  {tab.activeTab === "Opleiding" && (
                     <EducationTab data={user.educations} />
                   )}
-                  {activeTab === "Talen" && (
+                  {tab.activeTab === "Talen" && (
                     <LanguageTab data={user.languages} />
                   )}
-                  {activeTab === "Contact" && (
-                    <ContactTab data={user.contacts} />
+                  {tab.activeTab === "Contact" && (
+                    <ContactTab data={user.contacts} email={user.email!} />
                   )}
                 </div>
               </div>
             </>
           )}
-          {activeMenu === "Resume" && (
+          {activeMenu === "Letter" && (
             <div className="relative h-full flex-grow px-4 py-6">
               <div className="flex h-full flex-col gap-4">
                 <div className="flex items-center justify-between">

@@ -4,11 +4,18 @@ import { Button } from "../ui/button";
 
 interface ContactBlockProps {
   data: Contact[];
+  email: string;
 }
 
-export default function ContactBlock({ data }: ContactBlockProps) {
+export default function ContactBlock({ data, email }: ContactBlockProps) {
   return (
     <div className="flex flex-col gap-2">
+      <div className="flex">
+        <div className="w-32 text-sm tracking-tight text-muted-foreground">
+          Emailadres
+        </div>
+        <div className="font-medium tracking-tight">{email}</div>
+      </div>
       {data.map((item) => (
         <div key={item.id} className="flex">
           <div className="w-32 text-sm tracking-tight text-muted-foreground">

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   title: z.string().min(2).max(50),
@@ -26,8 +27,8 @@ export default function SkillForm() {
   const router = useRouter();
 
   const addSkill = api.skill.create.useMutation({
-    onSuccess: () => {
-      toast.success("Contact added.");
+    onSuccess: (data) => {
+      toast.success(`${data.title} toevegoed als vaardigheid.`);
       router.refresh();
       form.reset();
     },
@@ -45,6 +46,8 @@ export default function SkillForm() {
       ...values,
     });
   }
+
+  const { title: titleError } = form.formState.errors;
   return (
     <Form {...form}>
       <form
@@ -62,8 +65,10 @@ export default function SkillForm() {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="Front-End Developer"
-                  className="bg-accent focus-visible:ring-0"
+                  placeholder="Flexibel"
+                  className={cn(
+                    titleError && "border-destructive bg-destructive/50",
+                  )}
                 />
               </FormControl>
               <FormMessage />
@@ -71,7 +76,7 @@ export default function SkillForm() {
           )}
         />
         <Button type="submit" size="sm" className="ml-auto">
-          Done
+          Toevoegen
         </Button>
       </form>
     </Form>

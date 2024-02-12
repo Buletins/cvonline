@@ -15,6 +15,11 @@ interface EducationItemsProps {
 export default function EducationItems({ data }: EducationItemsProps) {
   return (
     <div className="flex flex-col gap-4 overflow-hidden">
+      {data.length === 0 && (
+        <p className="tracking-tight">
+          Voeg een aantal relevante vaardigeheden toe.
+        </p>
+      )}
       {data.map((item) => (
         <EducationItem key={item.id} item={item} />
       ))}

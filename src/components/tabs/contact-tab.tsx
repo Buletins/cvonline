@@ -6,14 +6,15 @@ import ContactForm from "../forms/contact-form";
 
 interface ContactTabProps {
   data: Contact[];
+  email: string;
 }
 
-export default function ContactTab({ data }: ContactTabProps) {
+export default function ContactTab({ data, email }: ContactTabProps) {
   return (
     <BlockWrapper
       title="Contact"
       adding={<ContactForm />}
-      listing={<ContactBlock data={data} />}
+      listing={<ContactBlock data={data} email={email} />}
     />
   );
 }

@@ -90,11 +90,7 @@ export default async function ProfilePage({
             <ItemBlock title="Vaaridgheden">
               <div className="flex flex-wrap gap-2">
                 {user.skills.map((item) => (
-                  <Badge
-                    key={item.id}
-                    variant="secondary"
-                    className="bg-white/15 font-normal backdrop-blur-lg hover:bg-white/15"
-                  >
+                  <Badge key={item.id} variant="blurred">
                     {item.title}
                   </Badge>
                 ))}
