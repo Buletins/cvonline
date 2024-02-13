@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
+import { useAdding } from "@/hooks/use-adding";
 
 interface BlockWrapperProps {
   title: string;
@@ -18,7 +19,15 @@ export default function BlockWrapper({
   listing,
   hideButton,
 }: BlockWrapperProps) {
-  const [isAdding, setIsAdding] = useState<boolean>(false);
+  const useIsAdding = useAdding();
+
+  const handleButton = () => {
+    if (useIsAdding.status) {
+      useIsAdding.close();
+    } else {
+      useIsAdding.open();
+    }
+  };
 
   return (
     <div className="flex h-full flex-col gap-8 pb-8">
@@ -28,12 +37,8 @@ export default function BlockWrapper({
             <div className="tracking-tight">{title}</div>
           </div>
           {!hideButton && (
-            <Button
-              onClick={() => setIsAdding(!isAdding)}
-              size="sm"
-              variant="secondary"
-            >
-              {isAdding ? "Annuleer" : "Nieuw"}
+            <Button onClick={handleButton} size="sm" variant="secondary">
+              {useIsAdding.status ? "Annuleer" : "Nieuw"}
             </Button>
           )}
         </div>
@@ -41,7 +46,7 @@ export default function BlockWrapper({
           {description}
         </p>
       </div>
-      <ScrollArea>{isAdding ? adding : listing}</ScrollArea>
+      <ScrollArea>{useIsAdding.status ? adding : listing}</ScrollArea>
     </div>
   );
 }

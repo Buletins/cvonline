@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAdding } from "@/hooks/use-adding";
 
 const formSchema = z.object({
   contactType: z.string().min(2).max(50),
@@ -32,11 +33,13 @@ const formSchema = z.object({
 
 export default function ContactForm() {
   const router = useRouter();
+  const isAdding = useAdding();
 
   const addContact = api.contact.create.useMutation({
     onSuccess: () => {
       toast.success("Contact added.");
       router.refresh();
+      isAdding.close();
     },
   });
 

@@ -30,14 +30,13 @@ export const contactRouter = createTRPCRouter({
   delete: publicProcedure
     .input(
       z.object({
-        userId: z.string().min(1),
         id: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.contact.delete({
         where: {
-          userId: input.userId,
+          userId: ctx.session?.user.id,
           id: input.id,
         },
       });

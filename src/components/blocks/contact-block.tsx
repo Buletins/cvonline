@@ -11,6 +11,7 @@ import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { Form, FormControl, FormField, FormItem } from "../ui/form";
+import { useAdding } from "@/hooks/use-adding";
 
 interface ContactBlockProps {
   data: Contact[];
@@ -43,8 +44,17 @@ interface ContactItemProps {
 
 function ContactItem({ item }: ContactItemProps) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const isAdding = useAdding();
 
   const router = useRouter();
+
+  const deleteContact = api.contact.delete.useMutation({
+    onSuccess: (data) => {
+      toast.success(`${data.contactType} Verwijderd.`);
+      setIsEditing(false);
+      router.refresh();
+    },
+  });
 
   const updateContact = api.contact.update.useMutation({
     onSuccess: () => {
@@ -69,11 +79,11 @@ function ContactItem({ item }: ContactItemProps) {
   }
 
   return (
-    <div key={item.id} className="flex">
-      <div className="w-32 text-sm tracking-tight text-muted-foreground">
+    <div key={item.id} className="flex w-full">
+      <div className="w-32 shrink-0 text-sm tracking-tight text-muted-foreground">
         {item.contactType}
       </div>
-      <div className={cn("flex flex-col", isEditing && "gap-2")}>
+      <div className={cn("flex w-full flex-col", isEditing && "gap-2")}>
         {isEditing ? (
           <Form {...form}>
             <form
@@ -95,29 +105,26 @@ function ContactItem({ item }: ContactItemProps) {
                   </FormItem>
                 )}
               />
-              <Button type="submit" size="sm" className="ml-auto">
-                Done
-              </Button>
+              <div className="ml-auto flex items-center gap-4">
+                <Button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  size="sm"
+                  variant="link"
+                  className="p-0 hover:opacity-50"
+                >
+                  Annuleer
+                </Button>
+                <Button type="submit" size="sm">
+                  Opslaan
+                </Button>
+              </div>
             </form>
           </Form>
         ) : (
           <div className="font-medium tracking-tight">{item.contactValue}</div>
         )}
-        {isEditing ? (
-          <div className="flex items-center gap-4">
-            <Button
-              onClick={() => setIsEditing(false)}
-              size="sm"
-              variant="link"
-              className="p-0 hover:opacity-50"
-            >
-              Annuleer
-            </Button>
-            <Button size="sm" variant="link" className="p-0 hover:opacity-50">
-              Opslaan
-            </Button>
-          </div>
-        ) : (
+        {!isEditing && (
           <div className="flex items-center gap-4">
             <Button
               onClick={() => setIsEditing(true)}
@@ -128,6 +135,11 @@ function ContactItem({ item }: ContactItemProps) {
               Bewerk
             </Button>
             <Button
+              onClick={() =>
+                deleteContact.mutate({
+                  id: item.id,
+                })
+              }
               size="sm"
               variant="link"
               className="p-0 text-destructive hover:opacity-50"
