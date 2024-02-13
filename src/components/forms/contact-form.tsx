@@ -40,16 +40,6 @@ export default function ContactForm() {
     },
   });
 
-  // const deleteContact = api.contact.delete.useMutation({
-  //   onSuccess: () => {
-  //     toast.success("Contact deleted.");
-  //     router.refresh();
-  //   },
-  //   onSettled: () => {
-  //     router.refresh();
-  //   },
-  // });
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -110,7 +100,7 @@ export default function ContactForm() {
                   <Input
                     {...field}
                     placeholder="Front-End Developer"
-                    className="bg-accent focus-visible:ring-0"
+                    className="focus-visible:ring-0"
                   />
                 </FormControl>
                 <FormMessage />

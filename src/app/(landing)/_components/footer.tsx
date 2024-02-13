@@ -8,7 +8,7 @@ export default function Footer() {
         <p className="text-sm tracking-tight text-muted-foreground">
           © 2024 Resumon. All rights reserved.
         </p>
-        <div className="text-default-200 flex flex-row items-center justify-start gap-3">
+        {/* <div className="text-default-200 flex flex-row items-center justify-start gap-3">
           <Button variant="link" size="sm" className="px-0" asChild>
             <Link href="/">Terms</Link>
           </Button>
@@ -18,7 +18,7 @@ export default function Footer() {
           <Button variant="link" size="sm" className="px-0" asChild>
             <Link href="/">Privacy</Link>
           </Button>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

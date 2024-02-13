@@ -43,6 +43,25 @@ export const contactRouter = createTRPCRouter({
       });
     }),
 
+  update: publicProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+        contactValue: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.contact.update({
+        where: {
+          userId: ctx.session?.user.id,
+          id: input.id,
+        },
+        data: {
+          contactValue: input.contactValue,
+        },
+      });
+    }),
+
   get: publicProcedure
     .input(
       z.object({

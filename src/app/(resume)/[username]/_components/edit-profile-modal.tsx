@@ -61,7 +61,6 @@ export default function EditProfileModal({
   session,
 }: EditProfileModalProps) {
   const [activeMenu, setActiveMenu] = useState<string>("Resume");
-  const [activeTab, setActiveTab] = useState<string>("Algemeen");
   const [switchLoading, setSwitchLoading] = useState<boolean>(false);
   const [loadingSwitchType, setLoadingSwitchType] = useState<string | null>(
     null,

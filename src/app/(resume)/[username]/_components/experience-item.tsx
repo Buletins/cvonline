@@ -48,6 +48,8 @@ export default function ExperienceItem({ data, session }: ExperienceItemProps) {
     },
   });
 
+  if (data.isDraft) return null;
+
   return (
     <div className="relative flex flex-col items-start gap-4 md:flex-row md:gap-8">
       <div className="w-24 shrink-0 text-xs/none text-muted-foreground">

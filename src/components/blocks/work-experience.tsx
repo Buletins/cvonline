@@ -42,6 +42,12 @@ function WorkExperienceItem({ item }: WorkExperienceProps) {
     },
   });
 
+  const toggleExperience = api.experience.toggleSingle.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
+
   const isLoading = deleteExperience.isLoading;
 
   return (
@@ -79,7 +85,13 @@ function WorkExperienceItem({ item }: WorkExperienceProps) {
         </div>
       </div>
       <div className="relative flex h-full flex-col items-end justify-between gap-4">
-        <Switch id="published-status" />
+        <Switch
+          onCheckedChange={() => {
+            toggleExperience.mutate({ id: item.id });
+          }}
+          checked={!item.isDraft}
+          id="published-status"
+        />
         {isConfirm ? (
           <div className="flex flex-col items-end gap-2">
             <div className="text-sm tracking-tight">

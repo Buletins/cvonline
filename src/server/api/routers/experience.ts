@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 
 export const experienceRouter = createTRPCRouter({
   create: protectedProcedure
@@ -26,12 +23,11 @@ export const experienceRouter = createTRPCRouter({
       });
     }),
 
-  get: protectedProcedure
-    .query(({ ctx }) => {
-      return ctx.db.experience.findMany({
-        where: { id: ctx.session.user.id },
-      });
-    }),
+  get: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.experience.findMany({
+      where: { id: ctx.session.user.id },
+    });
+  }),
 
   delete: protectedProcedure
     .input(
@@ -79,4 +75,37 @@ export const experienceRouter = createTRPCRouter({
       throw new Error("User not found");
     }
   }),
+
+  toggleSingle: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+
+         const currentExperience = await ctx.db.experience.findUnique({
+        where: {
+          userId: ctx.session.user.id,
+          id: input.id,
+        },
+      });
+
+        if (!currentExperience || currentExperience.isDraft === undefined) {
+        return null; // or handle the case accordingly
+      }
+
+
+        const updatedIsDraft = !currentExperience.isDraft;
+       return ctx.db.experience.update({
+        where: {
+          userId: ctx.session.user.id,
+          id: input.id,
+        },
+        data: {
+          isDraft: updatedIsDraft,
+        },
+      });
+    }),
 });
+ 
