@@ -101,10 +101,6 @@ export default function Header({ user, session }: HeaderProps) {
           <div className="flex items-center gap-4">
             {email && (
               <Button
-                onClick={() => {
-                  toast.success("Emailadres gekopierd.");
-                  navigator.clipboard.writeText(email);
-                }}
                 variant="link"
                 className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
               >
