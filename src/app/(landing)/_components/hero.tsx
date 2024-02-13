@@ -1,22 +1,27 @@
-import { Button } from "@/components/ui/button";
-import { api } from "@/trpc/server";
+"use client";
+
+import { signIn } from "next-auth/react";
 import { FileTextIcon } from "lucide-react";
 
-export default async function Hero() {
+import { Button } from "@/components/ui/button";
+
+export default function Hero() {
   return (
     <>
       <div className="flex flex-col">
         <h1 className="text-4xl font-semibold tracking-tight">
-          Slechts 2% van de cvs komt door de eerste ronde. Zorg ervoor dat jij
-          in die top 2% zit.
+          Val op in de eerste ronde: Maak een CV dat bij de top 2% hoort!
         </h1>
       </div>
       <p className="max-w-lg text-lg/snug tracking-tight text-muted-foreground">
-        Binnen 5 minuten een perfect cv waarmee je positief opvalt. Voer je
-        gegevens in, gebruik je cv online met een persoonlijke link en
-        solliciteer op jouw droombaan. Probeer nu gratis!
+        Laat je CV opvallen met onze snelle tool. In enkele minuten maak je een
+        professioneel CV dat je met een persoonlijke link kunt delen. Probeer
+        het nu gratis en vergroot je kansen op die droombaan!
       </p>
-      <Button className="gap-2 rounded-full border px-3 py-1.5 pr-4 backdrop-blur-lg transition">
+      <Button
+        onClick={() => signIn("google", { redirect: false })}
+        className="gap-2 rounded-full border px-3 py-1.5 pr-4 backdrop-blur-lg transition"
+      >
         <FileTextIcon className="h-3.5 w-3.5" />
         Maak je cv
       </Button>

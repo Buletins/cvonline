@@ -14,7 +14,7 @@ export default function TopCta({ users }: TopCtaProps) {
         Probeer gratis 🚀
       </Link>
       <div className="text-xs tracking-tight text-muted-foreground">
-        {users} cv's gemaakt.
+        {users} cvs gemaakt.
       </div>
     </div>
   );

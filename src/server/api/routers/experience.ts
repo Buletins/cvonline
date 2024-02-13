@@ -91,7 +91,7 @@ export const experienceRouter = createTRPCRouter({
         },
       });
 
-        if (!currentExperience || currentExperience.isDraft === undefined) {
+        if (!currentExperience ?? currentExperience?.isDraft === undefined) {
         return null; // or handle the case accordingly
       }
 
