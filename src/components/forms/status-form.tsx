@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import type { Dispatch, SetStateAction } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -35,16 +35,21 @@ interface StatusFormProps {
 }
 
 export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const addStatus = api.status.create.useMutation({
     onSuccess: () => {
-      toast.success("Username changed");
+      toast.success("Status geplaatst!");
       setIsStatusOpen(false);
+      setIsLoading(false);
       router.refresh();
     },
     onError: () => {
-      toast.error("Username allready exists");
+      toast.error("Er is iets misgegaan, probeer opnieuw.");
+    },
+    onMutate: () => {
+      setIsLoading(true);
     },
   });
 
@@ -61,6 +66,7 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
       ...values,
     });
   }
+
   return (
     <Form {...form}>
       <form
@@ -74,15 +80,16 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
             render={({ field }) => (
               <FormItem className="w-auto">
                 <Select
+                  disabled={isLoading}
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="h-auto bg-accent p-0 focus:ring-0 focus-visible:ring-0">
+                    <SelectTrigger className="h-auto border-transparent bg-transparent p-0 shadow-none focus:ring-0 focus-visible:ring-0">
                       <SelectValue placeholder="🔥" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="w-16 min-w-0">
+                  <SelectContent className="w-16 min-w-0 bg-white/15">
                     <SelectItem value="😂">😂</SelectItem>
                     <SelectItem value="❤️">❤️</SelectItem>
                     <SelectItem value="👍">👍</SelectItem>
@@ -101,7 +108,8 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
                   <div className="relative flex items-center gap-2">
                     <Textarea
                       {...field}
-                      placeholder="I'm feeling..."
+                      disabled={isLoading}
+                      placeholder="Vandaag ingeschreven voor een nieuwe cursus!"
                       className="resize-none border-transparent bg-transparent p-0 shadow-none focus-visible:ring-0"
                     />
                   </div>
@@ -114,14 +122,20 @@ export default function StatusForm({ setIsStatusOpen }: StatusFormProps) {
         <div className="flex items-end gap-2">
           <Button
             onClick={() => setIsStatusOpen(false)}
+            disabled={isLoading}
             type="button"
             size="sm"
             variant="link"
           >
-            Cancel
+            Annuleer
           </Button>
-          <Button type="submit" size="sm" variant="blurred">
-            Set Status
+          <Button
+            disabled={isLoading}
+            type="submit"
+            size="sm"
+            variant="blurred"
+          >
+            Plaats status
           </Button>
         </div>
       </form>

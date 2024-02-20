@@ -50,6 +50,7 @@ export default async function ProfilePage({
 }) {
   const session = await getServerAuthSession();
   const user = await api.user.getByUsernam.query({ username: params.username });
+  console.log(user);
 
   if (!session && !user?.isPusblished) return "This profile is not published";
   if (!user ?? !user?.email ?? !user?.name) return "use not found";

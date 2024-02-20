@@ -144,7 +144,7 @@ export default function EditProfileModal({
     <Dialog open={editProfile.status} onOpenChange={() => editProfile.close()}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="h-full min-h-svh w-full max-w-3xl overflow-hidden bg-background/50 p-0 backdrop-blur-lg md:max-h-[760px] md:min-h-[760px]"
+        className="h-full min-h-svh w-full max-w-3xl overflow-hidden bg-background/50 p-0 backdrop-blur-lg focus-visible:ring-0 md:max-h-[760px] md:min-h-[760px]"
       >
         <div className="flex w-full flex-col overflow-hidden md:flex-row">
           <div className="flex flex-col items-center gap-3 border-r px-4 py-6">

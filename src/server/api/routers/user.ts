@@ -64,6 +64,7 @@ export const userRouter = createTRPCRouter({
         location: z.string().min(2).max(50),
         website: z.string().min(0).optional(),
         email: z.string().min(2).max(50),
+        telephone: z.string().min(2).max(50),
         description: z.string().min(2).max(500),
       }),
     )

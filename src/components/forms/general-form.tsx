@@ -28,6 +28,7 @@ const formSchema = z.object({
   title: z.string().min(2).max(50),
   location: z.string().min(2).max(50),
   email: z.string().min(2).max(50),
+  telephone: z.string().min(2).max(50),
   website: z.string().min(0).optional(),
   description: z.string().min(2).max(500),
 });
@@ -41,6 +42,7 @@ interface GeneralFormProps {
     | "title"
     | "location"
     | "email"
+    | "telephone"
     | "website"
     | "profileImage"
     | "description"
@@ -57,6 +59,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
     id,
     username,
     email,
+    telephone,
     isPusblished,
     location,
     name,
@@ -86,6 +89,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
       title: title ?? "",
       location: location ?? "",
       email: email ?? "",
+      telephone: telephone ?? "",
       website: website ?? "",
       description: description ?? "",
     },
@@ -183,7 +187,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                     <Input
                       {...field}
                       disabled={!isCreated || !isEditing}
-                      placeholder="Front-End Developer"
+                      placeholder="mijnemail@resumon.be"
                       className="focus-visible:ring-0"
                     />
                   </FormControl>
@@ -193,7 +197,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
             />
             <FormField
               control={form.control}
-              name="email"
+              name="telephone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-xs text-muted-foreground">
@@ -203,7 +207,7 @@ export default function GeneralForm({ user }: GeneralFormProps) {
                     <Input
                       {...field}
                       disabled={!isCreated || !isEditing}
-                      placeholder="Front-End Developer"
+                      placeholder="0483 12 34 56"
                       className="focus-visible:ring-0"
                     />
                   </FormControl>

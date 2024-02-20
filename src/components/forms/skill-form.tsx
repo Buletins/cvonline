@@ -1,6 +1,7 @@
 "use client";
 
 import { z } from "zod";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -24,13 +25,18 @@ const formSchema = z.object({
 });
 
 export default function SkillForm() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const addSkill = api.skill.create.useMutation({
     onSuccess: (data) => {
-      toast.success(`${data.title} toevegoed als vaardigheid.`);
-      router.refresh();
       form.reset();
+      router.refresh();
+      toast.success(`${data.title} toevegoed als vaardigheid.`);
+      setIsLoading(false);
+    },
+    onMutate: () => {
+      setIsLoading(true);
     },
   });
 
@@ -65,6 +71,7 @@ export default function SkillForm() {
               <FormControl>
                 <Input
                   {...field}
+                  disabled={isLoading}
                   placeholder="Flexibel"
                   className={cn(
                     titleError && "border-destructive bg-destructive/50",
@@ -75,7 +82,12 @@ export default function SkillForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" size="sm" className="ml-auto">
+        <Button
+          disabled={isLoading}
+          type="submit"
+          size="sm"
+          className="ml-auto"
+        >
           Toevoegen
         </Button>
       </form>

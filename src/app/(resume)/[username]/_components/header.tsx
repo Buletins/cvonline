@@ -2,10 +2,10 @@
 
 import {
   CameraIcon,
-  CopyIcon,
   ExternalLinkIcon,
+  MailIcon,
+  PhoneCallIcon,
   SmilePlusIcon,
-  XIcon,
 } from "lucide-react";
 import type { Session } from "next-auth";
 import { useState } from "react";
@@ -27,7 +27,14 @@ import { toast } from "sonner";
 interface HeaderProps {
   user: Pick<
     User,
-    "location" | "id" | "website" | "name" | "title" | "email"
+    | "location"
+    | "id"
+    | "website"
+    | "name"
+    | "title"
+    | "email"
+    | "image"
+    | "telephone"
   > & {
     status: Status | null;
   };
@@ -38,7 +45,17 @@ export default function Header({ user, session }: HeaderProps) {
   const [isStatusOpen, setIsStatusOpen] = useState<boolean>(false);
   const router = useRouter();
 
-  const { status, id, location, website, name, title, email } = user;
+  const {
+    status,
+    id,
+    location,
+    website,
+    name,
+    title,
+    email,
+    image,
+    telephone,
+  } = user;
 
   const deleteStatus = api.status.delete.useMutation({
     onSuccess: () => {
@@ -48,17 +65,14 @@ export default function Header({ user, session }: HeaderProps) {
 
   return (
     <header className="relative mx-auto flex w-full max-w-lg flex-col gap-4">
-      {session && <UserMenu />}
+      {session?.user.id === user.id && <UserMenu />}
       <div className="flex items-center gap-4">
         <div className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full border">
-          <img
-            src={
-              "https://res.cloudinary.com/read-cv/image/upload/c_fill,h_92,w_92/dpr_1.0/v1/1/profilePhotos/Cwit4zi9q1ajFhwHZndNri4v0rm1/bafdf7ed-cab3-4033-bcf7-160cd837bc72.jpg?_a=ATO2BAA0"
-            }
-            alt=""
-            className="h-full w-full rounded-full"
-          />
-          <CameraIcon className="h-6 w-6 text-muted-foreground" />
+          {image ? (
+            <img src={image} alt="" className="h-full w-full rounded-full" />
+          ) : (
+            <CameraIcon className="h-6 w-6 text-muted-foreground" />
+          )}
           {session?.user.id === id ? (
             <TooltipProvider delayDuration={100}>
               <Tooltip>
@@ -76,8 +90,8 @@ export default function Header({ user, session }: HeaderProps) {
                     </button>
                   </div>
                 </TooltipTrigger>
-                <TooltipContent className="py-1">
-                  <p>Add a status</p>
+                <TooltipContent className="bg-white/15 py-1 text-primary backdrop-blur-lg">
+                  <p>Plaats een status</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -99,15 +113,6 @@ export default function Header({ user, session }: HeaderProps) {
             </p>
           </div>
           <div className="flex items-center gap-4">
-            {email && (
-              <Button
-                variant="link"
-                className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
-              >
-                <CopyIcon className="h-4 w-4" />
-                Email
-              </Button>
-            )}
             {website && (
               <Button
                 variant="link"
@@ -120,6 +125,24 @@ export default function Header({ user, session }: HeaderProps) {
                 </a>
               </Button>
             )}
+            {email && (
+              <Button
+                variant="link"
+                className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
+              >
+                <MailIcon className="h-4 w-4" />
+                Mail
+              </Button>
+            )}
+            {telephone && (
+              <Button
+                variant="link"
+                className="h-auto gap-2 p-0 text-muted-foreground hover:text-primary"
+              >
+                <PhoneCallIcon className="h-4 w-4" />
+                Bel
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -128,14 +151,14 @@ export default function Header({ user, session }: HeaderProps) {
       ) : status?.title ? (
         <div className="group relative flex flex-col gap-2 rounded-lg bg-white/15 p-3">
           {session?.user.id === id && (
-            <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100">
+            <div className="absolute right-3 top-2 opacity-0 group-hover:opacity-100">
               <Button
                 onClick={() => deleteStatus.mutate()}
                 size="sm"
-                variant="outline"
-                className="px-1"
+                variant="link"
+                className="p-0 text-[10px]"
               >
-                <XIcon className="h-3 w-3" />
+                Verwijder
               </Button>
             </div>
           )}
